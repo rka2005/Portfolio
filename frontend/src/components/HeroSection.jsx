@@ -5,9 +5,8 @@ import { motion } from "framer-motion";
 export default function HeroSection() {
   const [activeSection, setActiveSection] = useState('home');
   const [underlineStyle, setUnderlineStyle] = useState({ left: 0, width: 0 });
-  const navRef = useRef(null); // Ref for the nav links list (ul)
+  const navRef = useRef(null); 
 
-  // This effect tracks which section is currently on screen
   useEffect(() => {
     const sections = document.querySelectorAll('section[id]');
 
@@ -20,7 +19,7 @@ export default function HeroSection() {
         });
       },
       {
-        rootMargin: '-50% 0% -50% 0%', // Triggers when section is in the middle 50% of the screen
+        rootMargin: '-50% 0% -50% 0%',
         threshold: 0,
       }
     );
@@ -30,17 +29,14 @@ export default function HeroSection() {
     return () => sections.forEach((section) => observer.unobserve(section));
   }, []);
 
-  // This effect moves the underline when the active section changes
   useEffect(() => {
     if (!navRef.current) return;
 
-    // Find the link (<a>) that has the matching data-section
     const activeLink = navRef.current.querySelector(
       `[data-section="${activeSection}"]`
     );
 
     if (activeLink) {
-      // We get the position from its parent (the <li>)
       const parentLi = activeLink.parentElement;
       setUnderlineStyle({
         left: parentLi.offsetLeft,
@@ -53,10 +49,9 @@ export default function HeroSection() {
     <section id="home">
       <nav className="navbar">
         <div className="logo">
-          Rohit<span>.</span>
+          RK<span> 05</span>
         </div>
         
-        {/* We add the ref to the <ul> and a data-section to each <a> */}
         <ul className="nav-links" ref={navRef}>
           <li><a href="#home" data-section="home">Home</a></li>
           <li><a href="#about" data-section="about">About</a></li>
