@@ -2,7 +2,8 @@ import { motion } from "framer-motion";
 import ScrollFloat from "../components/ScrollFloat";
 import { FiSend } from "react-icons/fi";
 import './Contact.css';
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
+import { useForm, ValidationError } from "@formspree/react";
 
 const sectionVariants = {
   hidden: { opacity: 0, y: 50 },
@@ -16,15 +17,15 @@ const sectionVariants = {
 export default function Contact() {
 
   const formRef = useRef(null);
+  const formId = import.meta.env.VITE_FORMSPREE_ID;
+  const [state, handleSubmit] = useForm(formId);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    alert("Thankk You!");
-
-    if (formRef.current) {
-      formRef.current.reset();
+  useEffect(() => {
+    if (state.succeeded) {
+      alert("Thank you! Your message has been sent successfully.");
+      formRef.current?.reset();
     }
-  };
+  }, [state.succeeded]);
 
   return (
     <section id="contact" className="section">
