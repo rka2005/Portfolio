@@ -77,7 +77,7 @@ export default function HeroSection() {
               options={{
                 strings: [
                   "Full Stack Developer",
-                  "Passionate Software Developer",
+                  "Software Developer",
                   "Tech Enthusiast",
                   "Innovator"
                 ],
