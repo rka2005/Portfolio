@@ -164,6 +164,7 @@ body {
 
 .skills-title {
   margin-bottom: 40px;
+  margin-top: -15rem;
 }
 
 /* New About Section Styles */
@@ -176,6 +177,7 @@ body {
   max-width: 960px;
   margin: 0 auto;
   padding: 0 20px;
+  margin-top: -10rem;
 }
 
 .about-image {
@@ -303,7 +305,7 @@ html {
 /* Project Styles */
 
 .horizontal-scroll-container {
-  height: 400vh; 
+  height: 500vh; 
   position: relative;
   width: 100%;
   margin-top: -80px;
@@ -500,7 +502,7 @@ html {
 #projects.section {
   padding-bottom: 0;
   margin-bottom: -80px;
-  margin-top: -80px;
+  margin-top: -15rem;
 }
 
 @media (max-width: 768px) {
