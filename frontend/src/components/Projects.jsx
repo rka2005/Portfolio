@@ -33,7 +33,7 @@ const projectsData = [
     imageUrl: project3Image, 
     tech: ["React", "Type Script", "Python", "Fast API", "Firebase"],
     github: "https://github.com/rka2005/AquaWatch_1.0",
-    live: null,
+    live: "https://aquawatch-v1.vercel.app/",
   },
   {
     title: "Quick Share",
