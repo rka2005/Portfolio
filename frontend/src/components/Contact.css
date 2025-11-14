@@ -149,14 +149,16 @@
 }
 
 /* --- RESPONSIVE STYLES --- */
-@media (max-width: 768px) {
+@media (max-width: 900px) {
+
   .contact-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: 0.9fr;
     gap: 40px;
+    width: 100%;
   }
 
   .contact-form {
+    margin-left: 0;
     padding: 30px 20px;
-    /* Less padding on mobile */
   }
 }

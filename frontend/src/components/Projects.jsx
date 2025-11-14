@@ -69,7 +69,10 @@ export default function Projects() {
     offset: ["start start", "end end"],
   });
 
-  const x = useTransform(scrollYProgress, [0, 1], ["0%", "-80%"]);
+  const isMobile = window.innerWidth <= 768;
+  const x = isMobile
+    ? 0 // no horizontal movement
+    : useTransform(scrollYProgress, [0, 1], ["0%", "-80%"]);
   const [flippedIndex, setFlippedIndex] = useState(null);
 
   return (
@@ -78,7 +81,10 @@ export default function Projects() {
 
       <div ref={scrollContainerRef} className="horizontal-scroll-container">
         <div className="sticky-wrapper">
-          <motion.div className="horizontal-track" style={{ x }}>
+          <motion.div
+            className="horizontal-track"
+            style={isMobile ? {} : { x }}
+          >
             {projectsData.map((project, index) => (
               <ProjectCard
                 key={index}
