@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import "./index.css";
-import Particles from './components/Particles';
+import Particles from './components/Background';
 import HeroSection from "./components/HeroSection";
 import About from "./components/About";
 import Skills from "./components/Skills";
