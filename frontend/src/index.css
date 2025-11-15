@@ -517,13 +517,17 @@ html {
     padding: 10px 20px;
   }
 
+  .logo {
+    font-size: 1.2rem;
+  }
+
   .nav-links {
     gap: 15px;
     margin-left: 25px;
   }
 
   .nav-links a {
-    font-size: 0.9rem;
+    font-size: 0.8rem;
   }
 
   /* --- Hero --- */
