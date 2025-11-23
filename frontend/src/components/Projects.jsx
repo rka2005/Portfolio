@@ -9,6 +9,7 @@ import project3Image from "../assets/projects/aquawatch.jpg";
 import project4Image from "../assets/projects/quickshare.jpeg";
 import project5Image from "../assets/projects/crash.jpeg";
 import project6Image from "../assets/projects/ezstudy.jpeg";
+import project7Image from "../assets/projects/heart3.png";
 
 const projectsData = [
   {
@@ -58,6 +59,14 @@ const projectsData = [
     tech: ["React", "Java Script", "Vercel", "OpenAI"],
     github: "https://github.com/rka2005/EzStudyAI",
     live: "https://ezstudyai.vercel.app/",
+  },
+  {
+    title: "Heart Disease Prediction",
+    description: "This project predicts the risk of heart disease using machine learning and deep learning by analyzing key health factors. The model helps identify potential risks early, supporting better medical decisions.",
+    imageUrl: project7Image,
+    tech: ["React", "Java Script", "Vercel", "OpenAI"],
+    github: "https://github.com/rka2005/Heart_Disease_Prediction",
+    live: null,
   }
 ];
 
@@ -72,7 +81,7 @@ export default function Projects() {
   const isMobile = window.innerWidth <= 768;
   const x = isMobile
     ? 0 // no horizontal movement
-    : useTransform(scrollYProgress, [0, 1], ["0%", "-80%"]);
+    : useTransform(scrollYProgress, [0, 1], ["0%", "-120%"]);
   const [flippedIndex, setFlippedIndex] = useState(null);
 
   return (
