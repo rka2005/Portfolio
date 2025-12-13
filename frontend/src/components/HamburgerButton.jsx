@@ -38,17 +38,17 @@ const HamburgerButton = ({ isOpen, toggle }) => {
                 }
 
                 .hamburger-label {
-                    width: 70px;
-                    height: 58px;
+                    width: 50px;
+                    height: 38px;
                     display: block;
                     cursor: pointer;
                     position: relative;
                 }
 
                 .hamburger-label div {
-                    width: 70px;
-                    height: 6px;
-                    background-color: var(--text-primary); /* Uses your theme variable */
+                    width: 50px;
+                    height: 4px;
+                    background-color: #00ffbf;
                     position: absolute;
                     border-radius: 5px;
                 }
@@ -71,21 +71,20 @@ const HamburgerButton = ({ isOpen, toggle }) => {
 
                 /* Checked States */
 
-                .label-check:checked + .hamburger-label .line1 {
+                #label-check:checked + .hamburger-label .line1 {
                     transform: rotate(35deg) scaleX(.55) translate(39px, -4.5px);
                     border-radius: 50px 50px 50px 0;
                 }
 
-                .label-check:checked + .hamburger-label .line3 {
+                #label-check:checked + .hamburger-label .line3 {
                     transform: rotate(-35deg) scaleX(.55) translate(39px, 4.5px);
                     border-radius: 0 50px 50px 50px;
                 }
 
-                .label-check:checked + .hamburger-label .line2 {
+                #label-check:checked + .hamburger-label .line2 {
                     border-top-right-radius: 50px;
                     border-bottom-right-radius: 50px;
                     width: 45px;
-                    opacity: 0; /* Often middle lines fade out in these styles, or you can keep it */
                 }`
             }</style>
         </>
