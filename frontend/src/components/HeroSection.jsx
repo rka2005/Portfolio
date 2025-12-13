@@ -51,6 +51,28 @@ export default function HeroSection() {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
 
+  const handleMobileNavClick = (sectionId) => {
+    // 1. Close menu
+    setIsMobileMenuOpen(false);
+
+    // 2. Scroll AFTER exit animation
+    setTimeout(() => {
+      const section = document.getElementById(sectionId);
+      if (!section) return;
+
+      const navbarHeight = 90; // adjust if needed
+      const y =
+        section.getBoundingClientRect().top +
+        window.pageYOffset -
+        navbarHeight;
+
+      window.scrollTo({
+        top: y,
+        behavior: "smooth",
+      });
+    }, 320); // must be > 0.3s (your framer exit duration)
+  };
+
   return (
     <section id="home">
       <nav className="navbar">
@@ -90,13 +112,13 @@ export default function HeroSection() {
               <ul className="mobile-nav-links">
                 {['home', 'about', 'skills', 'projects', 'contact'].map((item) => (
                   <li key={item}>
-                    <a
-                      href={`#${item}`}
-                      onClick={() => setIsMobileMenuOpen(true)}
+                    <button
+                      type="button"
                       className={activeSection === item ? 'active' : ''}
+                      onClick={() => handleMobileNavClick(item)}
                     >
                       {item.charAt(0).toUpperCase() + item.slice(1)}
-                    </a>
+                    </button>
                   </li>
                 ))}
               </ul>
