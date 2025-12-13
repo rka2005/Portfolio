@@ -1,10 +1,13 @@
 import { useState, useEffect, useRef } from 'react';
 import Typewriter from "typewriter-effect";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
+import HamburgerButton from './HamburgerButton';
+// Removed ThemeSwitch import
 
 export default function HeroSection() {
   const [activeSection, setActiveSection] = useState('home');
   const [underlineStyle, setUnderlineStyle] = useState({ left: 0, width: 0 });
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const navRef = useRef(null); 
 
   useEffect(() => {
@@ -45,6 +48,10 @@ export default function HeroSection() {
     }
   }, [activeSection]);
 
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
+
   return (
     <section id="home">
       <nav className="navbar">
@@ -52,19 +59,55 @@ export default function HeroSection() {
           RK<span> 05</span>
         </div>
         
-        <ul className="nav-links" ref={navRef}>
+        {/* Desktop Navigation */}
+        <ul className="nav-links desktop-nav" ref={navRef}>
           <li><a href="#home" data-section="home">Home</a></li>
           <li><a href="#about" data-section="about">About</a></li>
           <li><a href="#skills" data-section="skills">Skills</a></li>
           <li><a href="#projects" data-section="projects">Projects</a></li>
           <li><a href="#contact" data-section="contact">Contact</a></li>
-          
-          {/* This is the new animated underline element */}
           <div className="nav-underline" style={underlineStyle} />
         </ul>
+
+        {/* Right side controls */}
+        <div style={{ marginLeft: "auto", display: "flex", alignItems: "center", gap: "10px" }}>
+
+          {/* Theme Switch Removed from here */}
+
+          {/* Mobile Hamburger (Visible only on Mobile via CSS) */}
+          <div className="mobile-menu-btn">
+            <HamburgerButton isOpen={isMobileMenuOpen} toggle={toggleMobileMenu} />
+          </div>
+        </div>
+
+        {/* Mobile Menu Overlay */}
+        <AnimatePresence>
+          {isMobileMenuOpen && (
+            <motion.div
+              className="mobile-nav-overlay"
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.3 }}
+            >
+              <ul className="mobile-nav-links">
+                {['home', 'about', 'skills', 'projects', 'contact'].map((item) => (
+                  <li key={item}>
+                    <a
+                      href={`#${item}`}
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className={activeSection === item ? 'active' : ''}
+                    >
+                      {item.charAt(0).toUpperCase() + item.slice(1)}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </nav>
 
-      {/* ... rest of your HeroSection content ... */}
       <div className="hero-container">
         <motion.div
           initial={{ opacity: 0, y: 40 }}
@@ -84,7 +127,7 @@ export default function HeroSection() {
                 autoStart: true,
                 loop: true,
                 delay: 60,
-                deleteSpeed: 30
+                deleteSpeed: 30,
               }}
             />
           </div>

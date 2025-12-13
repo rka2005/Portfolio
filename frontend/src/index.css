@@ -667,3 +667,74 @@ html {
     gap: 20px;
   }
 }
+
+/* ... Keep all your existing CSS ... */
+
+/* --- Mobile Menu Base Styles --- */
+.mobile-menu-btn {
+  display: none;
+  /* Hidden by default (Desktop) */
+}
+
+.mobile-nav-overlay {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  background: var(--nav-bg);
+  backdrop-filter: blur(15px);
+  border-bottom: 1px solid var(--card-border);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  border-radius: 0 0 20px 20px;
+}
+
+.mobile-nav-links {
+  list-style: none;
+  padding: 20px 0;
+  margin: 0;
+  text-align: center;
+  width: 100%;
+}
+
+.mobile-nav-links li {
+  margin: 15px 0;
+}
+
+.mobile-nav-links a {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.mobile-nav-links a.active,
+.mobile-nav-links a:hover {
+  color: #00ffbf;
+}
+
+
+/* --- RESPONSIVE LOGIC --- */
+
+@media (max-width: 768px) {
+
+  /* 1. Hide the desktop links */
+  .desktop-nav {
+    display: none !important;
+  }
+
+  /* 2. Show the hamburger button */
+  .mobile-menu-btn {
+    display: block;
+  }
+
+  /* 3. Adjust Navbar padding for mobile */
+  .navbar {
+    justify-content: space-between;
+    padding: 10px 20px;
+  }
+}

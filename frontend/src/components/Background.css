@@ -1,5 +1,27 @@
-.particles-container {
-  position: relative;
+.particle-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
+  z-index: -1;
+  transition: background 0.5s ease-in-out;
+
+  /* --- Ultra-Premium Dark Background --- */
+  /* Starts Pure Black, fades into very deep midnight/violet at the corner */
+  background: linear-gradient(135deg,
+      #000000 0%,
+      /* Pure Black */
+      #04010a 50%,
+      /* Deepest Obsidian */
+      #0d001a 100%
+      /* Subtle Deep Violet hint */
+    );
+}
+
+/* Ensure Dark Mode uses the same (or purely black) style */
+:global(.dark) .particle-canvas,
+.dark .particle-canvas {
+  background: #000000;
+  /* Pure black for maximum contrast in dark mode */
 }
