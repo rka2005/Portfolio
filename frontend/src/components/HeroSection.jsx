@@ -2,7 +2,6 @@ import { useState, useEffect, useRef } from 'react';
 import Typewriter from "typewriter-effect";
 import { motion, AnimatePresence } from "framer-motion";
 import HamburgerButton from './HamburgerButton';
-// Removed ThemeSwitch import
 
 export default function HeroSection() {
   const [activeSection, setActiveSection] = useState('home');
@@ -72,8 +71,6 @@ export default function HeroSection() {
         {/* Right side controls */}
         <div style={{ marginLeft: "auto", display: "flex", alignItems: "center", gap: "10px" }}>
 
-          {/* Theme Switch Removed from here */}
-
           {/* Mobile Hamburger (Visible only on Mobile via CSS) */}
           <div className="mobile-menu-btn">
             <HamburgerButton isOpen={isMobileMenuOpen} toggle={toggleMobileMenu} />
@@ -95,7 +92,7 @@ export default function HeroSection() {
                   <li key={item}>
                     <a
                       href={`#${item}`}
-                      onClick={() => setIsMobileMenuOpen(false)}
+                      onClick={() => setIsMobileMenuOpen(true)}
                       className={activeSection === item ? 'active' : ''}
                     >
                       {item.charAt(0).toUpperCase() + item.slice(1)}

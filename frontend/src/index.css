@@ -139,6 +139,7 @@ body {
 
 /* Section layout */
 .section {
+  position: relative;
   min-height: 80vh;
   padding: 120px 20px 80px;
   text-align: center; 
@@ -668,28 +669,30 @@ html {
   }
 }
 
-/* ... Keep all your existing CSS ... */
-
 /* --- Mobile Menu Base Styles --- */
 .mobile-menu-btn {
   display: none;
-  /* Hidden by default (Desktop) */
 }
 
 .mobile-nav-overlay {
   position: absolute;
   top: 100%;
-  left: 0;
-  width: 100%;
-  background: var(--nav-bg);
-  backdrop-filter: blur(15px);
-  border-bottom: 1px solid var(--card-border);
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  max-width: 400px;
+  margin-top: 15px;
+  background: rgba(10, 25, 47, 0.95);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(0, 255, 191, 0.2);
+  border-radius: 20px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
   overflow: hidden;
   display: flex;
   flex-direction: column;
   align-items: center;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-  border-radius: 0 0 20px 20px;
+  z-index: 999;
 }
 
 .mobile-nav-links {
@@ -715,6 +718,7 @@ html {
 .mobile-nav-links a.active,
 .mobile-nav-links a:hover {
   color: #00ffbf;
+  text-shadow: 0 0 10px rgba(0, 255, 191, 0.4);
 }
 
 
