@@ -705,6 +705,11 @@ html {
 
 .mobile-nav-links li {
   margin: 15px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.mobile-nav-links li:last-child {
+  border-bottom: none;
 }
 
 .mobile-nav-links a {
@@ -713,6 +718,46 @@ html {
   color: var(--text-primary);
   text-decoration: none;
   transition: color 0.3s;
+}
+
+.mobile-nav-links button {
+  background: transparent;
+  border: none;
+  width: 100%;
+  padding: 16px 20px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 1rem;
+  font-weight: 500;
+  text-align: center;
+  color: #b0c4de;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+}
+
+.mobile-nav-links button:hover {
+  background: rgba(0, 255, 191, 0.05);
+  color: #fff;
+  letter-spacing: 0.5px;
+}
+
+.mobile-nav-links button.active {
+  color: #00ffbf;
+  background: rgba(0, 255, 191, 0.08);
+  font-weight: 600;
+}
+
+.mobile-nav-links button.active::before {
+  content: '';
+  position: absolute;
+  left: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 6px;
+  height: 6px;
+  background-color: #00ffbf;
+  border-radius: 50%;
+  box-shadow: 0 0 8px #00ffbf;
 }
 
 .mobile-nav-links a.active,
