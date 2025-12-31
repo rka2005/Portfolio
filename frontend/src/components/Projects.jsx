@@ -42,7 +42,7 @@ const projectsData = [
     imageUrl: project4Image, 
     tech: ["HTML", "Java Script", "MongoDB", "Python", "Fast API", "vercel"],
     github: "https://github.com/rka2005/Quick-Share",
-    live: "https://quickshareio.vercel.app/",
+    live: "https://qshareio.vercel.app/",
   },
   {
     title: "Crash-detector",
