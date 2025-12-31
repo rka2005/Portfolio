@@ -23,7 +23,6 @@ const HamburgerButton = ({ isOpen, toggle }) => {
 
             <style>{`
                 .hamburger-wrapper {
-                    /* Scale down the button slightly to fit the navbar */
                     transform: scale(0.6); 
                     display: flex;
                     align-items: center;

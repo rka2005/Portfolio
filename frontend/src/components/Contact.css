@@ -1,3 +1,9 @@
+#contact.section {
+  padding-top: 50px;
+  padding-bottom: 80px;
+  position: relative;
+}
+
 .contact-container {
   width: 100%;
   max-width: 900px;
@@ -88,7 +94,6 @@
   transform: translateY(-24px) translateX(-5px) scale(0.9);
   font-size: 0.9rem;
   color: #00ffbf;
-  /* This MUST match your page's BODY background to "cut" the line */
   background: #000;
   padding: 0 5px;
 }
@@ -160,5 +165,9 @@
   .contact-form {
     margin-left: 0;
     padding: 30px 20px;
+  }
+
+  #contact.section {
+    padding-top: 50px;
   }
 }

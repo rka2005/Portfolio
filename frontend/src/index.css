@@ -149,6 +149,7 @@ body {
   justify-content: center;
   align-items: center;
   width: 100%;
+  margin-top: -70px;
 }
 
 .section h2, .section .scroll-float {
@@ -300,7 +301,7 @@ html {
 
 .horizontal-track {
   display: flex;
-  width: 500%; /* 5 projects * 100%=500% */
+  width: 800%; /* 8 projects * 100%=800% */
   padding: 0 5vw;
   gap: 40px;
   padding-right: 100px; 
@@ -505,7 +506,7 @@ html {
 #projects.section {
   padding-bottom: 0;
   margin-bottom: -80px;
-  margin-top: -15rem;
+  margin-top: -20rem;
 }
 
 /*
@@ -543,7 +544,7 @@ html {
   /* --- Hero --- */
   .hero-container {
     min-height: 90vh;
-    padding-top: 120px;
+    padding-top: 80px;
   }
 
   .main-title {
@@ -560,15 +561,14 @@ html {
   }
 
   .skills-title {
-    margin-top: -10rem;
+    margin-top: -25rem;
   }
 
   /* --- About Section --- */
   .about-container {
     flex-direction: column;
     gap: 40px;
-    margin-top: 0;
-    /* Remove negative margin */
+    margin-top: -5rem;
   }
 
   .about-image {
@@ -594,14 +594,14 @@ html {
 
   /* --- Projects Section --- */
   #projects.section {
-    margin-top: -12rem;
+    margin-top: -32rem;
     margin-bottom: 0;
     padding-bottom: 80px;
   }
 
   .horizontal-scroll-container {
     height: auto;
-    margin-top: 60px;
+    margin-top: 35px;
   }
 
   .sticky-wrapper {
@@ -704,7 +704,7 @@ html {
 }
 
 .mobile-nav-links li {
-  margin: 15px 0;
+  margin: 5px 0;
   border-bottom: 1px solid rgba(255, 255, 255, 0.03);
 }
 

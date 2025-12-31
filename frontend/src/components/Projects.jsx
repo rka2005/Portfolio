@@ -10,6 +10,7 @@ import project4Image from "../assets/projects/quickshare.jpeg";
 import project5Image from "../assets/projects/crash.jpeg";
 import project6Image from "../assets/projects/ezstudy.jpeg";
 import project7Image from "../assets/projects/heart3.png";
+import project8Image from "../assets/projects/matchmedia.jpeg";
 
 const projectsData = [
   {
@@ -67,6 +68,14 @@ const projectsData = [
     tech: ["React", "Java Script", "Vercel", "OpenAI"],
     github: "https://github.com/rka2005/Heart_Disease_Prediction",
     live: null,
+  },
+  {
+    title: "Match Media",
+    description: "Match Media enables real-time synchronized media playback across multiple devices with room-based collaboration and instant control sharing.",
+    imageUrl: project8Image,
+    tech: ["React", "Java Script", "Python", "Fast API", "Web Sockets"],
+    github: "https://github.com/rka2005/Sync-Song",
+    live: "https://matchmedia.vercel.app/",
   }
 ];
 
@@ -81,7 +90,7 @@ export default function Projects() {
   const isMobile = window.innerWidth <= 768;
   const x = isMobile
     ? 0 // no horizontal movement
-    : useTransform(scrollYProgress, [0, 1], ["0%", "-120%"]);
+    : useTransform(scrollYProgress, [0, 1], ["0%", "-130%"]);
   const [flippedIndex, setFlippedIndex] = useState(null);
 
   return (

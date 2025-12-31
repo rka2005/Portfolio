@@ -37,7 +37,7 @@ function App() {
           </div>
         ) : (
           <>
-      <main style={{ position: 'relative', zIndex: 1 }}>
+      <main style={{ position: 'relative', marginTop: '-70px', zIndex: 1 }}>
         <HeroSection />
         <About />
         <Skills />
