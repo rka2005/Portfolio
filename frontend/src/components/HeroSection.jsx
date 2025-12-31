@@ -7,11 +7,11 @@ export default function HeroSection() {
   const [activeSection, setActiveSection] = useState('home');
   const [underlineStyle, setUnderlineStyle] = useState({ left: 0, width: 0 });
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const navRef = useRef(null); 
+  const navRef = useRef(null);
 
+  // --- 1. Intersection Observer (Tracks scrolling) ---
   useEffect(() => {
     const sections = document.querySelectorAll('section[id]');
-
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -20,57 +20,61 @@ export default function HeroSection() {
           }
         });
       },
-      {
-        rootMargin: '-50% 0% -50% 0%',
-        threshold: 0,
-      }
+      { rootMargin: '-50% 0% -50% 0%', threshold: 0 }
     );
-
     sections.forEach((section) => observer.observe(section));
-
     return () => sections.forEach((section) => observer.unobserve(section));
   }, []);
 
+  // --- 2. Underline Logic ---
   useEffect(() => {
     if (!navRef.current) return;
-
-    const activeLink = navRef.current.querySelector(
-      `[data-section="${activeSection}"]`
-    );
-
-    if (activeLink) {
-      const parentLi = activeLink.parentElement;
-      setUnderlineStyle({
-        left: parentLi.offsetLeft,
-        width: parentLi.offsetWidth,
-      });
-    }
+    const timeoutId = setTimeout(() => {
+      const activeLink = navRef.current.querySelector(`[data-section="${activeSection}"]`);
+      if (activeLink) {
+        const parentLi = activeLink.parentElement;
+        setUnderlineStyle({
+          left: parentLi.offsetLeft,
+          width: parentLi.offsetWidth,
+        });
+      }
+    }, 50);
+    return () => clearTimeout(timeoutId);
   }, [activeSection]);
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
 
-  const handleMobileNavClick = (sectionId) => {
-    // 1. Close menu
-    setIsMobileMenuOpen(false);
+  // --- 3. ROBUST SCROLL HANDLER (FIXED) ---
+  const handleScroll = (e, targetId) => {
+    e.preventDefault();
 
-    // 2. Scroll AFTER exit animation
-    setTimeout(() => {
-      const section = document.getElementById(sectionId);
-      if (!section) return;
+    // Function to perform the actual scroll
+    const performScroll = () => {
+      const element = document.getElementById(targetId);
+      if (element) {
+        // Calculate offset to prevent Navbar from covering the section title
+        const headerOffset = 85;
+        const elementPosition = element.getBoundingClientRect().top;
+        const offsetPosition = elementPosition + window.scrollY - headerOffset;
 
-      const navbarHeight = 90; // adjust if needed
-      const y =
-        section.getBoundingClientRect().top +
-        window.pageYOffset -
-        navbarHeight;
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: "smooth"
+        });
+      }
+    };
 
-      window.scrollTo({
-        top: y,
-        behavior: "smooth",
-      });
-    }, 320); // must be > 0.3s (your framer exit duration)
+    if (isMobileMenuOpen) {
+      // If mobile menu is open, close it first
+      setIsMobileMenuOpen(false);
+      // Wait a tiny bit for the menu close animation to start before scrolling
+      setTimeout(performScroll, 300);
+    } else {
+      // If desktop, scroll immediately
+      performScroll();
+    }
   };
 
   return (
@@ -79,21 +83,26 @@ export default function HeroSection() {
         <div className="logo">
           RK<span> 05</span>
         </div>
-        
+
         {/* Desktop Navigation */}
         <ul className="nav-links desktop-nav" ref={navRef}>
-          <li><a href="#home" data-section="home">Home</a></li>
-          <li><a href="#about" data-section="about">About</a></li>
-          <li><a href="#skills" data-section="skills">Skills</a></li>
-          <li><a href="#projects" data-section="projects">Projects</a></li>
-          <li><a href="#contact" data-section="contact">Contact</a></li>
+          {['home', 'about', 'skills', 'projects', 'contact'].map((item) => (
+            <li key={item}>
+              <a
+                href={`#${item}`}
+                data-section={item}
+                onClick={(e) => handleScroll(e, item)}
+              >
+                {item.charAt(0).toUpperCase() + item.slice(1)}
+              </a>
+            </li>
+          ))}
           <div className="nav-underline" style={underlineStyle} />
         </ul>
 
         {/* Right side controls */}
         <div style={{ marginLeft: "auto", display: "flex", alignItems: "center", gap: "10px" }}>
-
-          {/* Mobile Hamburger (Visible only on Mobile via CSS) */}
+          {/* Mobile Hamburger */}
           <div className="mobile-menu-btn">
             <HamburgerButton isOpen={isMobileMenuOpen} toggle={toggleMobileMenu} />
           </div>
@@ -112,13 +121,13 @@ export default function HeroSection() {
               <ul className="mobile-nav-links">
                 {['home', 'about', 'skills', 'projects', 'contact'].map((item) => (
                   <li key={item}>
-                    <button
-                      type="button"
+                    <a
+                      href={`#${item}`}
                       className={activeSection === item ? 'active' : ''}
-                      onClick={() => handleMobileNavClick(item)}
+                      onClick={(e) => handleScroll(e, item)}
                     >
                       {item.charAt(0).toUpperCase() + item.slice(1)}
-                    </button>
+                    </a>
                   </li>
                 ))}
               </ul>
@@ -127,6 +136,7 @@ export default function HeroSection() {
         </AnimatePresence>
       </nav>
 
+      {/* Hero Content */}
       <div className="hero-container">
         <motion.div
           initial={{ opacity: 0, y: 40 }}
@@ -146,12 +156,14 @@ export default function HeroSection() {
                 autoStart: true,
                 loop: true,
                 delay: 60,
-                deleteSpeed: 30,
+                deleteSpeed: 30
               }}
             />
           </div>
           <p className="tagline">Building seamless digital experiences with precision & creativity.</p>
-          <a href="#projects">
+
+          {/* CTA Button using the same scroll logic */}
+          <a href="#projects" onClick={(e) => handleScroll(e, 'projects')}>
             <button className="modern-btn">View My Work</button>
           </a>
         </motion.div>
