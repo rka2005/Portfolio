@@ -1,0 +1,159 @@
+/* --- Fonts & Base --- */
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&display=swap');
+
+.hacker-font {
+  font-family: 'Fira Code', monospace;
+}
+
+/* --- Container Aesthetics --- */
+.hacker-container {
+  background-color: #050505;
+  background-image: 
+    linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), 
+    linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+  background-size: 100% 2px, 3px 100%;
+  box-shadow: 0 0 20px rgba(0, 255, 0, 0.2), inset 0 0 40px rgba(0, 20, 0, 0.8);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Scanline Effect */
+.hacker-container::before {
+  content: " ";
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+  z-index: 2;
+  background-size: 100% 2px, 3px 100%;
+  pointer-events: none;
+}
+
+.scan-line {
+  width: 100%;
+  height: 2px;
+  background: rgba(0, 255, 0, 0.3);
+  position: absolute;
+  z-index: 10;
+  top: 0;
+  animation: scan 4s linear infinite;
+  opacity: 0.3;
+}
+
+/* --- Glitch Effect for Title --- */
+.glitch-text {
+  position: relative;
+}
+
+.glitch-text::before,
+.glitch-text::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.glitch-text::before {
+  left: 2px;
+  text-shadow: -1px 0 #ff00c1;
+  clip: rect(44px, 450px, 56px, 0);
+  animation: glitch-anim-1 3s infinite linear alternate-reverse;
+}
+
+.glitch-text::after {
+  left: -2px;
+  text-shadow: -1px 0 #00fff9;
+  clip: rect(44px, 450px, 56px, 0);
+  animation: glitch-anim-2 2s infinite linear alternate-reverse;
+}
+
+/* --- The Cyber Button --- */
+.cyber-btn {
+  clip-path: polygon(10% 0, 100% 0, 100% 70%, 90% 100%, 0 100%, 0 30%);
+  transition: all 0.2s ease;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.cyber-btn:hover {
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
+  box-shadow: 0 0 15px var(--accent-color);
+}
+
+.cyber-btn:active {
+  transform: scale(0.98);
+}
+
+/* --- Upload Animation Overlay --- */
+.data-stream {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.92);
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Fira Code', monospace;
+}
+
+.binary-stream {
+  color: #0f0;
+  font-size: 12px;
+  opacity: 0.3;
+  width: 100%;
+  word-wrap: break-word;
+  position: absolute;
+  top: 0;
+  pointer-events: none;
+}
+
+.progress-bar-container {
+  width: 80%;
+  height: 20px;
+  border: 1px solid #0f0;
+  padding: 2px;
+  position: relative;
+  box-shadow: 0 0 10px #0f0;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background-color: #0f0;
+  width: 0%;
+  transition: width 0.1s linear;
+  box-shadow: 0 0 15px #0f0;
+}
+
+/* --- Keyframes --- */
+@keyframes scan {
+  0% { top: -10%; }
+  100% { top: 110%; }
+}
+
+@keyframes glitch-anim-1 {
+  0% { clip: rect(20px, 9999px, 10px, 0); }
+  100% { clip: rect(80px, 9999px, 90px, 0); }
+}
+
+@keyframes glitch-anim-2 {
+  0% { clip: rect(50px, 9999px, 60px, 0); }
+  100% { clip: rect(10px, 9999px, 20px, 0); }
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.cursor-blink {
+  animation: blink 1s step-end infinite;
+}

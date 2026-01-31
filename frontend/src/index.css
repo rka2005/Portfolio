@@ -28,6 +28,7 @@ body {
   color: #ffffff;
   letter-spacing: 1px;
   margin-bottom: 0.5rem;
+  margin-top: 10rem;
 }
 
 .main-title span {
@@ -171,6 +172,10 @@ body {
 }
 
 /* New About Section Styles */
+
+#about {
+  margin-top: 2rem;
+}
 
 .about-container {
   display: flex;
@@ -514,6 +519,30 @@ html {
 === RESPONSIVE STYLES (Mobile/Tablet) ===
 =============================
 */
+@media (max-width: 320px) {
+  body {
+    width: 100%;
+  }
+  
+  .hero-container {
+    margin-top: -7.5rem;
+    margin-bottom: -4rem;
+  }
+
+  .about-content {
+    margin-top: -10px;
+    text-align: center;
+  }
+
+  .modern-btn {
+    margin-bottom: 3.5rem;
+  }
+  
+  #skills {
+    margin-bottom: 3rem;
+  }
+}
+
 @media (max-width: 768px) {
 
   /* --- Global --- */
