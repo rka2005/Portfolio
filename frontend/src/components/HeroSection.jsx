@@ -3,7 +3,7 @@ import Typewriter from "typewriter-effect";
 import { motion, AnimatePresence } from "framer-motion";
 import HamburgerButton from './HamburgerButton';
 
-export default function HeroSection() {
+export default function HeroSection({ onLoginClick }) {
   const [activeSection, setActiveSection] = useState('home');
   const [underlineStyle, setUnderlineStyle] = useState({ left: 0, width: 0 });
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -80,7 +80,11 @@ export default function HeroSection() {
   return (
     <section id="home">
       <nav className="navbar">
-        <div className="logo">
+        <div 
+          className="logo" 
+          onClick={onLoginClick}
+          style={{ cursor: 'pointer' }}
+          title="Go to Login">
           RK<span> 05</span>
         </div>
 

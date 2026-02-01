@@ -8,15 +8,24 @@ import Projects from "./components/Projects";
 import Contact from "./components/Contact";
 import Footer from "./components/Footer";
 import Loader from "./components/Loader";
+import Login from "./components/Sign";
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
+  const [showLogin, setShowLogin] = useState(false);
+
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false);
     }, 4000);
     return () => clearTimeout(timer);
   }, []);
+
+  if (showLogin) {
+    return (
+      <Login onClose={() => setShowLogin(false)} />
+    );
+  }
 
   return (
     <>
@@ -38,7 +47,7 @@ function App() {
         ) : (
           <>
       <main style={{ position: 'relative', marginTop: '-70px', zIndex: 1 }}>
-        <HeroSection />
+        <HeroSection onLoginClick={() => setShowLogin(true)} />
         <About />
         <Skills />
         <Projects />
