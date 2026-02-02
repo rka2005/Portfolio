@@ -24,8 +24,8 @@ const HackerLoginPage = ({ onClose }) => {
 
   // Initialize EmailJS
   useEffect(() => {
-    if (import.meta.env.EMAILJS_PUBLIC_KEY) {
-        emailjs.init(import.meta.env.EMAILJS_PUBLIC_KEY);
+    if (import.meta.env.VITE_EMAILJS_PUBLIC_KEY) {
+        emailjs.init(import.meta.env.VITE_EMAILJS_PUBLIC_KEY);
     }
   }, []);
 
@@ -99,8 +99,8 @@ const HackerLoginPage = ({ onClose }) => {
     };
 
     emailjs.send(
-      import.meta.env.EMAILJS_SERVICE_ID,
-      import.meta.env.EMAILJS_TEMPLATE_ID,
+      import.meta.env.VITE_EMAILJS_SERVICE_ID,
+      import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
       templateParams
     )
       .then(() => {
