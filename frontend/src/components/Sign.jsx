@@ -2,12 +2,10 @@ import { useState, useRef, useEffect } from 'react';
 import emailjs from '@emailjs/browser';
 import './Sign.css';
 
-const HackerLoginPage = ({ onClose }) => {
+const HackerLoginPage = ({ onClose, onSuccess }) => {
   // --- STATE MANAGEMENT ---
-  const [mode, setMode] = useState('signin'); // 'signin' | 'signup'
-  const [step, setStep] = useState(1); // 1 = Form, 2 = OTP
+  const [step, setStep] = useState(1); // 1 = Login Form, 2 = OTP
   const [isLoading, setIsLoading] = useState(false);
-  const [isGlitching, setIsGlitching] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
   const [terminalTitle, setTerminalTitle] = useState('ROOT@ACCESS:~$ ./login.sh');
 
@@ -50,40 +48,11 @@ const HackerLoginPage = ({ onClose }) => {
     }, 550); // Matches CSS animation duration
   };
 
-  // --- TRANSITION LOGIC ---
-  const switchMode = (targetMode) => {
-    if (isGlitching) return;
-    setIsGlitching(true);
-
-    // 1. Glitch Effect
-    setTimeout(() => {
-      setIsLoading(true);
-      if (barRef.current) {
-        barRef.current.classList.remove('loading-anim');
-        void barRef.current.offsetWidth; // trigger reflow
-        barRef.current.classList.add('loading-anim');
-      }
-    }, 400);
-
-    // 2. Switch Component Data
-    setTimeout(() => {
-      setMode(targetMode);
-      setStep(1); // Always reset to step 1
-      setTerminalTitle(targetMode === 'signup' ? 'ROOT@ACCESS:~$ ./register.sh' : 'ROOT@ACCESS:~$ ./login.sh');
-      setIsGlitching(false);
-    }, 1000);
-
-    // 3. Finish Loading
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 1900);
-  };
-
   // --- ACTION HANDLERS ---
 
-  const handleInitAccount = () => {
-    const { email, user } = formData;
-    if (!email || !user) return showToast("ERROR: MISSING CREDENTIALS");
+  const handleLoginWithOTP = () => {
+    const { email, user, pass } = formData;
+    if (!email || !user || !pass) return showToast("ERROR: MISSING CREDENTIALS");
 
     const otp = generateOTP();
     setGeneratedOTP(otp);
@@ -131,14 +100,15 @@ const HackerLoginPage = ({ onClose }) => {
         // Success
         setVerifyBtnStatus('success');
         setVerifyBtnText(">> ACCESS GRANTED");
-        showToast("IDENTITY CONFIRMED. ACCOUNT CREATED.");
+        showToast("IDENTITY CONFIRMED. LOGIN SUCCESSFUL.");
 
         setTimeout(() => {
-          // Reset and Redirect
-          setVerifyBtnStatus('default');
-          setVerifyBtnText(">> DECRYPT & VERIFY");
-          setFormData({ email: '', user: '', pass: '', otp: '' });
-          switchMode('signin');
+          // Redirect to upload form
+          if(onSuccess) {
+            onSuccess();
+          } else if(onClose) {
+            onClose();
+          }
         }, 2000);
 
       } else {
@@ -205,101 +175,58 @@ const HackerLoginPage = ({ onClose }) => {
             </div>
           )}
 
-          {/* SIGN IN VIEW */}
-          {mode === 'signin' && !isLoading && (
-            <div className={`hl-form-box hl-active-box ${isGlitching ? 'glitching-out' : ''}`}>
+          {/* LOGIN FORM - STEP 1 */}
+          {step === 1 && !isLoading && (
+            <div className="hl-form-box hl-active-box">
               <div className="hl-boot-sequence">
                 <p>{'>'} INITIATING LOGIN PROTOCOL...</p>
                 <p>{'>'} AWAITING CREDENTIALS...</p>
               </div>
               <form className="hl-terminal-form">
                 <div className="hl-input-group hl-boot-item delay-1">
-                  <label htmlFor="user">usr_id {'>'}</label>
-                  <input type="text" id="user" autoComplete="off" spellCheck="false" onChange={handleInputChange} />
+                  <label htmlFor="email">email_addr {'>'}</label>
+                  <input type="email" id="email" value={formData.email} onChange={handleInputChange} autoComplete="off" spellCheck="false" />
                 </div>
                 <div className="hl-input-group hl-boot-item delay-2">
-                  <label htmlFor="pass">passwd {'>'}</label>
-                  <input type="password" id="pass" onChange={handleInputChange} />
+                  <label htmlFor="user">usr_id {'>'}</label>
+                  <input type="text" id="user" value={formData.user} onChange={handleInputChange} autoComplete="off" spellCheck="false" />
                 </div>
-                <button 
-                    type="button" 
-                    className="hl-cyber-button hl-boot-item delay-3"
-                    onClick={() => {
-                        // Mock login for now
-                        if(onClose) onClose();
-                    }}
-                >
+                <div className="hl-input-group hl-boot-item delay-3">
+                  <label htmlFor="pass">passwd {'>'}</label>
+                  <input type="password" id="pass" value={formData.pass} onChange={handleInputChange} />
+                </div>
+                <button type="button" onClick={handleLoginWithOTP} className="hl-cyber-button hl-boot-item delay-4">
                   <span className="btn-text">{'>'}{'>'} EXECUTE LOGIN</span>
                 </button>
               </form>
-              <div className="hl-switch-prompt hl-boot-item delay-4">
-                <p>New user detected? <span onClick={() => switchMode('signup')}>./run_signup.sh</span></p>
-              </div>
             </div>
           )}
 
-          {/* SIGN UP VIEW */}
-          {mode === 'signup' && !isLoading && (
-            <div className={`hl-form-box hl-active-box ${isGlitching ? 'glitching-out' : ''}`}>
-
-              {/* STEP 1: DETAILS */}
-              {step === 1 && (
-                <div className="hl-step-container">
-                  <div className="hl-boot-sequence">
-                    <p>{'>'} CREATING NEW USER NODE...</p>
-                    <p>{'>'} ALLOCATING RESOURCES...</p>
+          {/* OTP VERIFICATION - STEP 2 */}
+          {step === 2 && !isLoading && (
+            <div className="hl-form-box hl-active-box fade-in-right">
+              <div className="hl-boot-sequence">
+                <p className="alert-text">{'>'} SECURITY PROTOCOL ACTIVATED</p>
+                <p>{'>'} 2FA_TOKEN_REQUIRED...</p>
+              </div>
+              <div className="otp-display-area">
+                <p className="instruction">{'>'}{'>'} PACKET SENT TO EMAIL_NODE</p>
+                <form className="hl-terminal-form">
+                  <div className="hl-input-group hl-boot-item delay-1">
+                    <label htmlFor="otp">auth_token {'>'}</label>
+                    <input type="text" id="otp" value={formData.otp} onChange={handleInputChange} maxLength="6" autoComplete="off" placeholder="_ _ _ _ _ _" style={{ letterSpacing: '10px', textTransform: 'uppercase' }} />
                   </div>
-                  <form className="hl-terminal-form">
-                    <div className="hl-input-group hl-boot-item delay-1">
-                      <label htmlFor="email">email_addr {'>'}</label>
-                      <input type="email" id="email" value={formData.email} onChange={handleInputChange} autoComplete="off" spellCheck="false" />
-                    </div>
-                    <div className="hl-input-group hl-boot-item delay-2">
-                      <label htmlFor="user">assign_usr {'>'}</label>
-                      <input type="text" id="user" value={formData.user} onChange={handleInputChange} autoComplete="off" spellCheck="false" />
-                    </div>
-                    <div className="hl-input-group hl-boot-item delay-3">
-                      <label htmlFor="pass">set_passwd {'>'}</label>
-                      <input type="password" id="pass" value={formData.pass} onChange={handleInputChange} />
-                    </div>
-                    <button type="button" onClick={handleInitAccount} className="hl-cyber-button hl-boot-item delay-4">
-                      <span className="btn-text">{'>'}{'>'} INITIALIZE ACCOUNT</span>
-                    </button>
-                  </form>
-                  <div className="hl-switch-prompt hl-boot-item delay-5">
-                    <p>Already registered? <span onClick={() => switchMode('signin')}>./return_login.sh</span></p>
+                  <div className="otp-timer hl-boot-item delay-2" style={{ color: '#ff3333', marginBottom: '20px', fontSize: '0.8rem' }}>
+                    <span>TOKEN_EXPIRY: </span><span>120s</span>
                   </div>
+                  <button type="button" onClick={handleVerifyOTP} style={getButtonStyle()} className="hl-cyber-button hl-boot-item delay-3">
+                    <span className="btn-text">{verifyBtnText}</span>
+                  </button>
+                </form>
+                <div className="hl-switch-prompt hl-boot-item delay-4">
+                  <p>Packet lost? <span onClick={handleResend}>./resend_packet.sh</span></p>
                 </div>
-              )}
-
-              {/* STEP 2: OTP */}
-              {step === 2 && (
-                <div className="hl-step-container fade-in-right">
-                  <div className="hl-boot-sequence">
-                    <p className="alert-text">{'>'} SECURITY PROTOCOL ACTIVATED</p>
-                    <p>{'>'} 2FA_TOKEN_REQUIRED...</p>
-                  </div>
-                  <div className="otp-display-area">
-                    <p className="instruction">{'>'}{'>'} PACKET SENT TO EMAIL_NODE</p>
-                    <form className="hl-terminal-form">
-                      <div className="hl-input-group hl-boot-item delay-1">
-                        <label htmlFor="otp">auth_token {'>'}</label>
-                        <input type="text" id="otp" value={formData.otp} onChange={handleInputChange} maxLength="6" autoComplete="off" placeholder="_ _ _ _ _ _" style={{ letterSpacing: '10px', textTransform: 'uppercase' }} />
-                      </div>
-                      <div className="otp-timer hl-boot-item delay-2" style={{ color: '#ff3333', marginBottom: '20px', fontSize: '0.8rem' }}>
-                        <span>TOKEN_EXPIRY: </span><span>120s</span>
-                      </div>
-                      <button type="button" onClick={handleVerifyOTP} style={getButtonStyle()} className="hl-cyber-button hl-boot-item delay-3">
-                        <span className="btn-text">{verifyBtnText}</span>
-                      </button>
-                    </form>
-                    <div className="hl-switch-prompt hl-boot-item delay-4">
-                      <p>Packet lost? <span onClick={handleResend}>./resend_packet.sh</span></p>
-                    </div>
-                  </div>
-                </div>
-              )}
-
+              </div>
             </div>
           )}
 

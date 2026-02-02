@@ -9,10 +9,12 @@ import Contact from "./components/Contact";
 import Footer from "./components/Footer";
 import Loader from "./components/Loader";
 import Login from "./components/Sign";
+import UploadForm from "./components/UploadForm";
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [showLogin, setShowLogin] = useState(false);
+  const [showUploadForm, setShowUploadForm] = useState(false);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -21,9 +23,19 @@ function App() {
     return () => clearTimeout(timer);
   }, []);
 
+  if (showUploadForm) {
+    return <UploadForm onClose={() => setShowUploadForm(false)} />;
+  }
+
   if (showLogin) {
     return (
-      <Login onClose={() => setShowLogin(false)} />
+      <Login 
+        onClose={() => setShowLogin(false)} 
+        onSuccess={() => {
+          setShowLogin(false);
+          setShowUploadForm(true);
+        }}
+      />
     );
   }
 
