@@ -17,7 +17,7 @@ const sectionVariants = {
 export default function Contact() {
 
   const formRef = useRef(null);
-  const formId = import.meta.env.VITE_FORMSPREE_ID;
+  const formId = import.meta.env.FORMSPREE_ID;
   const [state, handleSubmit] = useForm(formId);
 
   useEffect(() => {
