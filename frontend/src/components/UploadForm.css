@@ -190,6 +190,7 @@
   letter-spacing: 0.2em;
   margin-bottom: 20px;
   background: linear-gradient(90deg, #fff, var(--neon-cyan));
+  background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   text-shadow: 0 0 10px rgba(0, 243, 255, 0.5);
