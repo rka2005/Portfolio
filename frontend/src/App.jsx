@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./index.css";
 import Particles from './components/Background';
 import HeroSection from "./components/HeroSection";
@@ -11,6 +12,23 @@ import Footer from "./components/Footer";
 import Loader from "./components/Loader";
 import Login from "./components/Sign";
 import UploadForm from "./components/UploadForm";
+import AllProjects from "./components/AllProjects";
+
+function HomePage({ onLoginClick }) {
+  return (
+    <>
+      <main style={{ position: 'relative', marginTop: '-70px', zIndex: 1 }}>
+        <HeroSection onLoginClick={onLoginClick} />
+        <About />
+        <Skills />
+        <Projects />
+        <Achivements />
+        <Contact />
+        <Footer />
+      </main>
+    </>
+  );
+}
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -41,8 +59,8 @@ function App() {
   }
 
   return (
-    <>
-    <div style={{
+    <Router>
+      <div style={{
         position: 'fixed',
         width: '100%',
         height: '100vh',
@@ -54,23 +72,16 @@ function App() {
       </div>
 
       {isLoading ? (
-          <div className="loader-container">
-            <Loader />
-          </div>
-        ) : (
-          <>
-      <main style={{ position: 'relative', marginTop: '-70px', zIndex: 1 }}>
-        <HeroSection onLoginClick={() => setShowLogin(true)} />
-        <About />
-        <Skills />
-        <Projects />
-        <Achivements />
-        <Contact />
-        <Footer />
-      </main>
-    </>
-  )};
-  </>
+        <div className="loader-container">
+          <Loader />
+        </div>
+      ) : (
+        <Routes>
+          <Route path="/" element={<HomePage onLoginClick={() => setShowLogin(true)} />} />
+          <Route path="/projects" element={<AllProjects />} />
+        </Routes>
+      )}
+    </Router>
   );
 }
 
