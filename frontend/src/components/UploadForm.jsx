@@ -1,15 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { Shield, Wifi, Zap, Lock, Unlock, FileText, AlertTriangle, CheckCircle, X, Power } from 'lucide-react';
+import { Shield, Wifi, Zap, Lock, Unlock, FileText, AlertTriangle, CheckCircle, X } from 'lucide-react';
 import './UploadForm.css';
 
-const HackerTerminal = ({ onClose }) => { // Optional: onClose prop if you want to tell a parent component
+const HackerTerminal = ({ onClose }) => { 
   const [formData, setFormData] = useState({ title: '', code: '' });
   const [file, setFile] = useState(null);
   const [status, setStatus] = useState('IDLE'); 
   const [progress, setProgress] = useState(0);
   const [hexDump, setHexDump] = useState([]);
-  
-  // State for the Close Animation
   const [isClosing, setIsClosing] = useState(false);
 
   const [logs, setLogs] = useState([
@@ -34,25 +32,56 @@ const HackerTerminal = ({ onClose }) => { // Optional: onClose prop if you want 
     }
   }, [status]);
 
-  const handleUpload = () => {
+  // --- MAIN UPLOAD LOGIC ---
+  const handleUpload = async () => {
     if (!formData.title || !file) {
       addLog("ERROR: MISSING_FIELDS", "error");
       return;
     }
+
+    // 1. Prepare Data
+    const payload = new FormData();
+    payload.append('title', formData.title);
+    payload.append('description', formData.code); // Maps your 'code' input to 'description'
+    payload.append('file', file);
+
+    // 2. Start Visual Sequence
     setStatus('SCANNING');
     addLog("SCANNING_PACKETS...", "warning");
 
-    setTimeout(() => {
-      setStatus('UPLOADING');
-      let p = 0;
-      const interval = setInterval(() => {
-        p += Math.random() * 3;
-        if (p >= 100) {
-          clearInterval(interval);
+    setTimeout(async () => {
+      try {
+        setStatus('UPLOADING');
+        addLog("ESTABLISHING_UPLINK...", "warning");
+
+        // Start visual progress bar (simulation while waiting for server)
+        let simProgress = 0;
+        const progressInterval = setInterval(() => {
+          simProgress += Math.random() * 5;
+          if (simProgress > 90) simProgress = 90; // Hold at 90% until server responds
+          setProgress(simProgress);
+        }, 200);
+
+        // 3. SEND TO BACKEND
+        // Ensure your backend server is running on port 5000
+        const response = await fetch('http://localhost:5000/api/upload', {
+          method: 'POST',
+          body: payload,
+        });
+
+        const result = await response.json();
+
+        // Clear simulation
+        clearInterval(progressInterval);
+
+        if (response.ok) {
+          // 4. Success State
           setProgress(100);
           setStatus('SUCCESS');
-          addLog("UPLOAD_COMPLETE", "success");
+          addLog("UPLOAD_COMPLETE: DATA_SECURED", "success");
+          addLog(`IMG_URL: ${result.data.imageUrl.substring(0, 25)}...`, "info");
           
+          // Reset form after delay
           setTimeout(() => {
             setStatus('IDLE');
             setFormData({ title: '', code: '' });
@@ -60,13 +89,19 @@ const HackerTerminal = ({ onClose }) => { // Optional: onClose prop if you want 
             setProgress(0);
           }, 4000);
         } else {
-          setProgress(p);
+          throw new Error(result.message || "Server rejected connection");
         }
-      }, 100);
+
+      } catch (error) {
+        setStatus('ERROR');
+        setProgress(0);
+        addLog(`FATAL_ERROR: ${error.message}`, "error");
+        console.error("Upload failed:", error);
+      }
     }, 1500);
   };
 
-  // --- THE CREATIVE CLOSE LOGIC ---
+  // --- CREATIVE CLOSE LOGIC ---
   const handleClose = () => {
     addLog("TERMINATING_PROCESS...", "error");
     setIsClosing(true);
@@ -76,12 +111,10 @@ const HackerTerminal = ({ onClose }) => { // Optional: onClose prop if you want 
     }, 800);
   };
 
-
   return (
     <div className={`cyber-wrapper ${isClosing ? 'power-off' : ''}`}>
       <div className="cyber-grid-bg"></div>
       
-      {/* Added class 'shutting-down' when closing */}
       <div className={`cyber-panel ${isClosing ? 'shutting-down' : ''}`}>
         
         {/* --- CLOSE BUTTON --- */}
@@ -103,7 +136,7 @@ const HackerTerminal = ({ onClose }) => { // Optional: onClose prop if you want 
                 {status === 'UPLOADING' ? <Zap size={16} className="blink"/> : <Wifi size={16}/>}
               </div>
               <div className="progress-track">
-                <div className="progress-fill" style={{ width: `${progress}%` }}></div>
+                <div className="progress-fill" style={{ width: `${progress}%`, backgroundColor: status === 'ERROR' ? 'red' : '#00f3ff' }}></div>
               </div>
             </div>
 
@@ -138,6 +171,9 @@ const HackerTerminal = ({ onClose }) => { // Optional: onClose prop if you want 
             <div style={{ textAlign: 'center' }}>
               <CheckCircle size={64} style={{ color: '#0aff0a', margin: '0 auto 20px' }} />
               <h2 style={{ color: '#fff', fontSize: '24px' }}>TRANSFER COMPLETE</h2>
+              <p style={{ color: '#aaa', marginTop: '10px', fontSize: '0.9rem' }}>
+                Image stored in Cloud Node.<br/>Metadata encrypted in Mongo Vault.
+              </p>
             </div>
           ) : (
             <>
@@ -192,7 +228,7 @@ const HackerTerminal = ({ onClose }) => { // Optional: onClose prop if you want 
                 </label>
               </div>
 
-              <button className="cyber-btn" onClick={handleUpload}>
+              <button className="cyber-btn" onClick={handleUpload} disabled={status === 'UPLOADING'}>
                 {formData.title && file ? <Unlock size={16}/> : <Lock size={16}/>}
                 EXECUTE_PROTOCOL
               </button>
