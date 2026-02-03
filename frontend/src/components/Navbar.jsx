@@ -11,7 +11,7 @@ export default function Navbar() {
     >
       <div className="logo">Rohit<span>Adak</span></div>
       <ul className="nav-links">
-        {["Home", "About", "Skills", "Projects", "Contact"].map((item) => (
+        {["Home", "About", "Skills", "Projects", "Achievements", "Contact"].map((item) => (
           <li key={item}>
             <Link to={item.toLowerCase()} smooth={true} duration={600}>
               {item}

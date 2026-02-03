@@ -5,6 +5,7 @@ import HeroSection from "./components/HeroSection";
 import About from "./components/About";
 import Skills from "./components/Skills";
 import Projects from "./components/Projects";
+import Achivements from "./components/Achivements";
 import Contact from "./components/Contact";
 import Footer from "./components/Footer";
 import Loader from "./components/Loader";
@@ -63,6 +64,7 @@ function App() {
         <About />
         <Skills />
         <Projects />
+        <Achivements />
         <Contact />
         <Footer />
       </main>
