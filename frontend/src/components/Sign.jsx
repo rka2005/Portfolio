@@ -54,6 +54,16 @@ const HackerLoginPage = ({ onClose, onSuccess }) => {
     const { email, user, pass } = formData;
     if (!email || !user || !pass) return showToast("ERROR: MISSING CREDENTIALS");
 
+    // Only allow a single admin credential set to initiate login.
+    // Configure these at build-time via Vite env vars: VITE_ADMIN_EMAIL, VITE_ADMIN_USER, VITE_ADMIN_PASS
+    const ADMIN_EMAIL = import.meta.env.VITE_ADMIN_EMAIL ?? 'admin@example.com';
+    const ADMIN_USER = import.meta.env.VITE_ADMIN_USER ?? 'admin';
+    const ADMIN_PASS = import.meta.env.VITE_ADMIN_PASS ?? 'password123';
+
+    if (email.trim() !== ADMIN_EMAIL || user.trim() !== ADMIN_USER || pass !== ADMIN_PASS) {
+      return showToast('ERROR: UNAUTHORIZED CREDENTIALS');
+    }
+
     const otp = generateOTP();
     setGeneratedOTP(otp);
 

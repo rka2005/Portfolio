@@ -3,6 +3,7 @@
   position: fixed;
   top: 0;
   left: 0;
+  inset: 0; 
   width: 100vw;
   height: 100vh;
   background: rgba(0, 0, 0, 0.95);
@@ -10,6 +11,7 @@
   z-index: 9999;
   overflow-y: auto;
   overflow-x: hidden;
+  overscroll-behavior: contain;
 }
 
 .achievements-page-container {
@@ -222,6 +224,10 @@
 
 /* Responsive Design */
 @media (max-width: 768px) {
+  .achievements-page-overlay {
+    touch-action: none;
+  }
+
   .achievements-page-container {
     padding: 60px 15px 40px;
   }

@@ -32,6 +32,8 @@ export default function AchievementsPage({ onClose }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
     let cancelled = false;
     async function fetchAchievements() {
       try {
@@ -59,7 +61,11 @@ export default function AchievementsPage({ onClose }) {
       }
     }
     fetchAchievements();
-    return () => { cancelled = true; };
+    return () => {
+      cancelled = true;
+      // restore previous overflow style
+      document.body.style.overflow = previousOverflow || "auto";
+    };
   }, []);
 
   return (
