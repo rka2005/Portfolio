@@ -54,16 +54,28 @@ const HackerLoginPage = ({ onClose, onSuccess }) => {
     const { email, user, pass } = formData;
     if (!email || !user || !pass) return showToast("ERROR: MISSING CREDENTIALS");
 
-    // Only allow a single admin credential set to initiate login.
-    // Configure these at build-time via Vite env vars: VITE_ADMIN_EMAIL, VITE_ADMIN_USER, VITE_ADMIN_PASS
-    const ADMIN_EMAIL = import.meta.env.VITE_ADMIN_EMAIL ?? 'admin@example.com';
-    const ADMIN_USER = import.meta.env.VITE_ADMIN_USER ?? 'admin';
-    const ADMIN_PASS = import.meta.env.VITE_ADMIN_PASS ?? 'password123';
+    // ✅ Load Admin Credentials from .env
+    const ADMIN_EMAIL = import.meta.env.VITE_ADMIN_EMAIL;
+    const ADMIN_USER = import.meta.env.VITE_ADMIN_USER;
+    const ADMIN_PASS = import.meta.env.VITE_ADMIN_PASS;
 
-    if (email.trim() !== ADMIN_EMAIL || user.trim() !== ADMIN_USER || pass !== ADMIN_PASS) {
-      return showToast('ERROR: UNAUTHORIZED CREDENTIALS');
+    // ✅ Ensure env values exist
+    if (!ADMIN_EMAIL || !ADMIN_USER || !ADMIN_PASS) {
+      return showToast("ERROR: ADMIN ENV NOT CONFIGURED");
     }
 
+    // ✅ Compare properly
+    const normalize = (v) => (v || "").toString().trim().toLowerCase();
+
+    if (
+      normalize(email) !== normalize(ADMIN_EMAIL) ||
+      normalize(user) !== normalize(ADMIN_USER) ||
+      pass.toString().trim() !== ADMIN_PASS.toString().trim()
+    ) {
+      return showToast("ERROR: UNAUTHORIZED CREDENTIALS");
+    }
+
+    
     const otp = generateOTP();
     setGeneratedOTP(otp);
 
