@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { ExternalLink, Award, X } from 'lucide-react';
+import AchievementLoader from './AchievementLoader';
 import './AchievementsPage.css';
 
 // Remote achievements will be fetched from backend
@@ -34,7 +35,19 @@ export default function AchievementsPage({ onClose }) {
     let cancelled = false;
     async function fetchAchievements() {
       try {
-        const res = await fetch('http://localhost:5000/api/achievements');
+        const API_BASE = import.meta.env.VITE_API_BASE;
+        // Behavior:
+        // - If VITE_API_BASE is undefined (not set) -> local dev -> use http://localhost:5000
+        // - If VITE_API_BASE is an empty string ('') -> production same-origin -> use relative path
+        // - If VITE_API_BASE is a URL -> use that as the backend base URL
+        let base;
+        if (typeof API_BASE === 'string') {
+          base = API_BASE === '' ? '' : API_BASE; // '' means same origin
+        } else {
+          base = 'http://localhost:5000';
+        }
+        const url = base ? `${base}/api/achievements` : `/api/achievements`;
+        const res = await fetch(url);
         const json = await res.json();
         if (!cancelled && json && json.success) {
           setItems(json.data);
@@ -92,14 +105,16 @@ export default function AchievementsPage({ onClose }) {
           </motion.div>
 
           {/* Achievements Grid */}
+          {loading ? (
+            <AchievementLoader />
+          ) : (
           <motion.div 
             className="achievements-page-grid"
             variants={containerVariants}
             initial="hidden"
             animate="visible"
           >
-            {loading && <div style={{ color: '#fff' }}>Loading...</div>}
-            {!loading && items.length === 0 && <div style={{ color: '#fff' }}>No achievements found.</div>}
+            {items.length === 0 && <div style={{ color: '#fff' }}>No achievements found.</div>}
             {items.map((item) => (
               <motion.div 
                 key={item._id || item.id} 
@@ -143,6 +158,7 @@ export default function AchievementsPage({ onClose }) {
               </motion.div>
             ))}
           </motion.div>
+          )}
         </div>
       </div>
     </div>

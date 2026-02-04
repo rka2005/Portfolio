@@ -11,7 +11,7 @@ const achievements = [
     id: 1,
     title: "Smart India Hackathon",
     organization: "Govt. of India",
-    date: "WINNER 2024",
+    date: "2023",
     description: "Secured 1st place nationwide for developing an AI-driven solution for sustainable water management using satellite data.",
     imageUrl: "https://images.unsplash.com/photo-1531482615713-2afd69097998?q=80&w=1740&auto=format&fit=crop", // Replace with Cloudinary
     link: "#"
