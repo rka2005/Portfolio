@@ -130,7 +130,7 @@ export default function HeroSection({ onLoginClick }) {
               transition={{ duration: 0.3 }}
             >
               <ul className="mobile-nav-links">
-                {['home', 'about', 'skills', 'projects', 'contact'].map((item) => (
+                {['home', 'about', 'skills', 'projects', 'achievements', 'contact'].map((item) => (
                   <li key={item}>
                     <a
                       href={`#${item}`}
