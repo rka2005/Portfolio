@@ -1,0 +1,18 @@
+services:
+  - type: web
+    name: portfolio-backend
+    env: node
+    plan: free
+    # Build will install frontend deps and produce frontend/dist
+    buildCommand: cd frontend && npm ci && npm run build
+    startCommand: node backend/server.js
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: SERVE_FRONTEND
+        value: "true"
+      # Do NOT store secrets here. Set them in Render dashboard instead:
+      # - key: MONGO_URI
+      # - key: CLOUDINARY_CLOUD_NAME
+      # - key: CLOUDINARY_API_KEY
+      # - key: CLOUDINARY_API_SECRET
