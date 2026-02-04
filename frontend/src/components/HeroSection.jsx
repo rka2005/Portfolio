@@ -80,11 +80,18 @@ export default function HeroSection({ onLoginClick }) {
   return (
     <section id="home">
       <nav className="navbar">
-        <div 
-          className="logo" 
-          onClick={onLoginClick}
+        <div
+          className="logo"
+          onClick={() => {
+            const element = document.getElementById('home');
+            if (element) {
+              const headerOffset = 85;
+              const offsetPosition = element.getBoundingClientRect().top + window.scrollY - headerOffset;
+              window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+            }
+          }}
           style={{ cursor: 'pointer' }}
-          title="Go to Login">
+          title="Go to Home">
           RK<span> 05</span>
         </div>
 

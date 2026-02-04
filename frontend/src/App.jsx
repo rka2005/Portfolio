@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, useNavigate } from "react-router-dom";
 import "./index.css";
 import Particles from './components/Background';
 import HeroSection from "./components/HeroSection";
@@ -32,7 +32,6 @@ function HomePage({ onLoginClick }) {
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
-  const [showLogin, setShowLogin] = useState(false);
   const [showUploadForm, setShowUploadForm] = useState(false);
 
   useEffect(() => {
@@ -46,17 +45,24 @@ function App() {
     return <UploadForm onClose={() => setShowUploadForm(false)} />;
   }
 
-  if (showLogin) {
+  // Route wrapper to pass navigation-based handlers into components
+  const HomeRoute = () => {
+    const navigate = useNavigate();
+    return <HomePage onLoginClick={() => navigate('/admin')} />;
+  };
+
+  const LoginRoute = () => {
+    const navigate = useNavigate();
     return (
-      <Login 
-        onClose={() => setShowLogin(false)} 
+      <Login
+        onClose={() => navigate('/')}
         onSuccess={() => {
-          setShowLogin(false);
           setShowUploadForm(true);
+          navigate('/');
         }}
       />
     );
-  }
+  };
 
   return (
     <Router>
@@ -77,7 +83,8 @@ function App() {
         </div>
       ) : (
         <Routes>
-          <Route path="/" element={<HomePage onLoginClick={() => setShowLogin(true)} />} />
+          <Route path="/" element={<HomeRoute />} />
+          <Route path="/admin" element={<LoginRoute />} />
           <Route path="/projects" element={<AllProjects />} />
         </Routes>
       )}

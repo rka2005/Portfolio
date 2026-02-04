@@ -1,92 +1,10 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { ExternalLink, Award, X } from 'lucide-react';
 import './AchievementsPage.css';
 
-// Extended achievements data
-const allAchievements = [
-  {
-    id: 1,
-    title: "Smart India Hackathon",
-    organization: "Govt. of India",
-    date: "WINNER 2024",
-    description: "Secured 1st place nationwide for developing an AI-driven solution for sustainable water management using satellite data.",
-    imageUrl: "https://images.unsplash.com/photo-1531482615713-2afd69097998?q=80&w=1740&auto=format&fit=crop",
-    link: "#"
-  },
-  {
-    id: 2,
-    title: "AWS Certified Developer",
-    organization: "Amazon Web Services",
-    date: "CERTIFIED 2023",
-    description: "Validated expertise in developing, deploying, and debugging cloud-based applications using AWS architecture.",
-    imageUrl: "https://images.unsplash.com/photo-1523580494863-6f3031224c94?q=80&w=1740&auto=format&fit=crop",
-    link: "#"
-  },
-  {
-    id: 3,
-    title: "Google Code Jam",
-    organization: "Google",
-    date: "TOP 50 2023",
-    description: "Competed against 10,000+ developers globally, solving complex algorithmic challenges under strict time limits.",
-    imageUrl: "https://images.unsplash.com/photo-1504384308090-c54be3855833?q=80&w=1588&auto=format&fit=crop",
-    link: "#"
-  },
-  {
-    id: 4,
-    title: "Open Source Contributor",
-    organization: "Mozilla",
-    date: "ONGOING",
-    description: "Active contributor to core repositories, improving rendering engine performance and fixing critical UI bugs.",
-    imageUrl: "https://images.unsplash.com/photo-1556075798-4825dfaaf498?q=80&w=1752&auto=format&fit=crop",
-    link: "#"
-  },
-  {
-    id: 5,
-    title: "Full Stack Nanodegree",
-    organization: "Udacity",
-    date: "GRADUATED 2022",
-    description: "Comprehensive program covering SQL, API development, Identity Access Management, and Server Deployment.",
-    imageUrl: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=1740&auto=format&fit=crop",
-    link: "#"
-  },
-  {
-    id: 6,
-    title: "Hackathon Winner",
-    organization: "TechFest",
-    date: "WINNER 2023",
-    description: "Built an innovative solution that impressed judges with its scalability and real-world impact.",
-    imageUrl: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=1740&auto=format&fit=crop",
-    link: "#"
-  },
-  {
-    id: 7,
-    title: "React Advanced Certification",
-    organization: "Meta",
-    date: "CERTIFIED 2023",
-    description: "Advanced certification in React development, covering advanced hooks, performance optimization, and architecture patterns.",
-    imageUrl: "https://images.unsplash.com/photo-1633356122544-f134324a6cee?q=80&w=1740&auto=format&fit=crop",
-    link: "#"
-  },
-  {
-    id: 8,
-    title: "Blockchain Developer",
-    organization: "IBM",
-    date: "CERTIFIED 2023",
-    description: "Specialized in building decentralized applications and smart contracts on Ethereum and Hyperledger platforms.",
-    imageUrl: "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?q=80&w=1632&auto=format&fit=crop",
-    link: "#"
-  },
-  {
-    id: 9,
-    title: "AI/ML Specialization",
-    organization: "Stanford Online",
-    date: "COMPLETED 2022",
-    description: "Comprehensive machine learning course covering supervised and unsupervised learning, neural networks, and deep learning.",
-    imageUrl: "https://images.unsplash.com/photo-1555255707-c07966088b7b?q=80&w=1632&auto=format&fit=crop",
-    link: "#"
-  }
-];
+// Remote achievements will be fetched from backend
+const allAchievements = [];
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -109,6 +27,28 @@ const cardVariants = {
 };
 
 export default function AchievementsPage({ onClose }) {
+  const [items, setItems] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    let cancelled = false;
+    async function fetchAchievements() {
+      try {
+        const res = await fetch('http://localhost:5000/api/achievements');
+        const json = await res.json();
+        if (!cancelled && json && json.success) {
+          setItems(json.data);
+        }
+      } catch (err) {
+        console.error('Failed to fetch achievements', err);
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    }
+    fetchAchievements();
+    return () => { cancelled = true; };
+  }, []);
+
   return (
     <div className="achievements-page-overlay">
       <div className="achievements-page-container">
@@ -158,9 +98,11 @@ export default function AchievementsPage({ onClose }) {
             initial="hidden"
             animate="visible"
           >
-            {allAchievements.map((item) => (
+            {loading && <div style={{ color: '#fff' }}>Loading...</div>}
+            {!loading && items.length === 0 && <div style={{ color: '#fff' }}>No achievements found.</div>}
+            {items.map((item) => (
               <motion.div 
-                key={item.id} 
+                key={item._id || item.id} 
                 className="achievement-page-card"
                 variants={cardVariants}
                 whileHover={{ y: -8 }}
@@ -168,7 +110,7 @@ export default function AchievementsPage({ onClose }) {
                 <div className="page-card-image-container">
                   <img 
                     src={item.imageUrl} 
-                    alt={item.title} 
+                    alt={item.title}
                     className="page-card-image"
                     loading="lazy"
                   />
