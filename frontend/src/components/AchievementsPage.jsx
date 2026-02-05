@@ -1,19 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
-import { ExternalLink, Award, X } from 'lucide-react';
+import { createPortal } from 'react-dom';
+import { motion, AnimatePresence } from 'framer-motion';
+import { ExternalLink, Award, X, Scan, ShieldCheck } from 'lucide-react';
 import AchievementLoader from './AchievementLoader';
 import './AchievementsPage.css';
-
-// Remote achievements will be fetched from backend
-const allAchievements = [];
 
 const containerVariants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
-    transition: {
-      staggerChildren: 0.1
-    }
+    transition: { staggerChildren: 0.1 }
   }
 };
 
@@ -27,39 +23,68 @@ const cardVariants = {
   }
 };
 
+// --- HOLOGRAPHIC ANIMATION VARIANTS ---
+const hologramVariants = {
+  hidden: { 
+    opacity: 0,
+    scaleY: 0.01,
+    scaleX: 0,
+    filter: "brightness(2) blur(10px)",
+  },
+  visible: { 
+    opacity: 1,
+    scaleY: 1,
+    scaleX: 1,
+    filter: "brightness(1) blur(0px)",
+    transition: { 
+      duration: 0.4,
+      type: "spring",
+      damping: 25,
+      stiffness: 300
+    }
+  },
+  exit: { 
+    opacity: 0,
+    scaleY: 0.01,
+    scaleX: 1.5, // Stretch out like a CRT turning off
+    filter: "brightness(5) blur(5px)",
+    transition: { duration: 0.3 }
+  }
+};
+
 export default function AchievementsPage({ onClose }) {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [activeCertificate, setActiveCertificate] = useState(null);
 
-    useEffect(() => {
-      if (activeCertificate) {
-        document.body.style.overflow = "hidden";
-      } else {
-        document.body.style.overflow = "auto";
-      }
-    }, [activeCertificate]);
-
+  // Lock Body Scroll when Modal is Open
   useEffect(() => {
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
+    if (activeCertificate) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+    return () => { document.body.style.overflow = "auto"; };
+  }, [activeCertificate]);
+
+  // --- MONGODB FETCH LOGIC ---
+  useEffect(() => {
     let cancelled = false;
+
     async function fetchAchievements() {
       try {
         const API_BASE = import.meta.env.VITE_API_BASE;
-        // Behavior:
-        // - If VITE_API_BASE is undefined (not set) -> local dev -> use http://localhost:5000
-        // - If VITE_API_BASE is an empty string ('') -> production same-origin -> use relative path
-        // - If VITE_API_BASE is a URL -> use that as the backend base URL
         let base;
         if (typeof API_BASE === 'string') {
-          base = API_BASE === '' ? '' : API_BASE; // '' means same origin
+          base = API_BASE === '' ? '' : API_BASE;
         } else {
           base = 'http://localhost:5000';
         }
+        
         const url = base ? `${base}/api/achievements` : `/api/achievements`;
         const res = await fetch(url);
         const json = await res.json();
+        
         if (!cancelled && json && json.success) {
           setItems(json.data);
         }
@@ -69,18 +94,16 @@ export default function AchievementsPage({ onClose }) {
         if (!cancelled) setLoading(false);
       }
     }
+
     fetchAchievements();
-    return () => {
-      cancelled = true;
-      // restore previous overflow style
-      document.body.style.overflow = previousOverflow || "auto";
-    };
+    return () => { cancelled = true; };
   }, []);
 
   return (
     <div className="achievements-page-overlay">
       <div className="achievements-page-container">
-        {/* Close Button */}
+        
+        {/* Main Close Button */}
         <motion.button 
           className="close-button"
           onClick={onClose}
@@ -92,18 +115,8 @@ export default function AchievementsPage({ onClose }) {
           <X size={28} />
         </motion.button>
 
-        {/* Background Effect */}
-        <div style={{
-          position: 'absolute',
-          top: '10%',
-          right: '5%',
-          width: '500px',
-          height: '500px',
-          background: 'radial-gradient(circle, rgba(0, 243, 255, 0.1) 0%, transparent 70%)',
-          filter: 'blur(80px)',
-          zIndex: 0,
-          pointerEvents: 'none'
-        }}></div>
+        {/* Ambient Background */}
+        <div className="ambient-glow"></div>
 
         <div className="achievements-page-content">
           {/* Header */}
@@ -119,100 +132,129 @@ export default function AchievementsPage({ onClose }) {
             </p>
           </motion.div>
 
-          {/* Achievements Grid */}
+          {/* Grid */}
           {loading ? (
             <AchievementLoader />
           ) : (
-          <motion.div 
-            className="achievements-page-grid"
-            variants={containerVariants}
-            initial="hidden"
-            animate="visible"
-          >
-            {items.length === 0 && <div style={{ color: '#fff' }}>No achievements found.</div>}
-            {items.map((item) => (
-              <motion.div 
-                key={item._id || item.id} 
-                className="achievement-page-card"
-                variants={cardVariants}
-                whileHover={{ y: -8 }}
-              >
-                <div className="page-card-image-container">
-                  <img 
-                    src={item.imageUrl} 
-                    alt={item.title}
-                    className="page-card-image"
-                    loading="lazy"
-                  />
-                  <div className="page-card-image-overlay"></div>
-                </div>
+            <motion.div 
+              className="achievements-page-grid"
+              variants={containerVariants}
+              initial="hidden"
+              animate="visible"
+            >
+              {items.length === 0 && <div style={{ color: '#fff', textAlign: 'center', width: '100%' }}>No achievements found.</div>}
+              
+              {items.map((item) => (
+                <motion.div 
+                  key={item._id || item.id} 
+                  className="achievement-page-card"
+                  variants={cardVariants}
+                  whileHover={{ y: -8, boxShadow: "0 20px 40px -10px rgba(0, 243, 255, 0.2)" }}
+                >
+                  <div className="page-card-image-container">
+                    <img 
+                      src={item.imageUrl} 
+                      alt={item.title}
+                      className="page-card-image"
+                      loading="lazy"
+                    />
+                    <div className="page-card-image-overlay"></div>
+                    
+                    {/* Hover Scan Icon Trigger */}
+                    <div className="scan-icon-overlay" onClick={() => setActiveCertificate(item)}>
+                      <Scan size={32} />
+                    </div>
+                  </div>
 
-                <div className="page-card-content">
-                  <div className="page-card-badge" onClick={() => setActiveCertificate(item)} style={{ cursor: "pointer" }}>
-                    Verify
-                  </div>
-                  
-                  <h3 className="page-card-title">{item.title}</h3>
-                  <div className="page-card-org">
-                    {item.organization}
-                  </div>
-                  
-                  <p className="page-card-description">
-                    {item.description}
-                  </p>
+                  <div className="page-card-content">
+                    <div 
+                      className="page-card-badge" 
+                      onClick={() => setActiveCertificate(item)}
+                      style={{ cursor: "pointer" }}
+                    >
+                      <ShieldCheck size={12} style={{marginRight:4}}/> Verify
+                    </div>
+                    
+                    <h3 className="page-card-title">{item.title}</h3>
+                    <div className="page-card-org">{item.organization || "Personal Achievement"}</div>
+                    
+                    <p className="page-card-description">{item.description}</p>
 
-                  <div className="page-card-footer">
-                    {item.link && (
-                      <a href={item.link} className="page-credential-btn" target="_blank" rel="noopener noreferrer">
-                        Verify <ExternalLink size={16} />
-                      </a>
-                    )}
-                    <Award size={24} color="rgba(255,255,255,0.2)" />
+                    <div className="page-card-footer">
+                      {item.link && (
+                        <a href={item.link} className="page-credential-btn" target="_blank" rel="noopener noreferrer">
+                          Verify <ExternalLink size={16} />
+                        </a>
+                      )}
+                      <Award size={24} color="rgba(0, 243, 255, 0.2)" />
+                    </div>
                   </div>
-                </div>
-              </motion.div>
-            ))}
-          </motion.div>
+                </motion.div>
+              ))}
+            </motion.div>
           )}
         </div>
       </div>
-      {activeCertificate && (
-        <motion.div
-          className="certificate-overlay"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          onClick={() => setActiveCertificate(null)}
-        >
+
+      {/* --- CREATIVE HOLOGRAPHIC VIEWER --- */}
+      {activeCertificate && createPortal(
+        <AnimatePresence>
           <motion.div
-            className="certificate-modal"
-            initial={{ scale: 0.85, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            exit={{ scale: 0.85, opacity: 0 }}
-            transition={{ type: "spring", stiffness: 120, damping: 18 }}
-            onClick={(e) => e.stopPropagation()}
+            className="certificate-overlay"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setActiveCertificate(null)}
           >
-            {/* Close Button */}
-            <button
-              className="certificate-close"
-              onClick={() => setActiveCertificate(null)}
+            {/* Hologram Container */}
+            <motion.div
+              className="certificate-holo-container"
+              variants={hologramVariants}
+              initial="hidden"
+              animate="visible"
+              exit="exit"
+              onClick={(e) => e.stopPropagation()}
             >
-              <X size={26} />
-            </button>
+              {/* Scanlines Effect */}
+              <div className="holo-scanlines"></div>
+              
+              {/* Corner Accents */}
+              <div className="holo-corner top-left"></div>
+              <div className="holo-corner top-right"></div>
+              <div className="holo-corner bottom-left"></div>
+              <div className="holo-corner bottom-right"></div>
 
-            {/* Certificate Image */}
-            <img
-              src={activeCertificate.imageUrl}
-              alt={activeCertificate.title}
-              className="certificate-image"
-            />
+              {/* Header */}
+              <div className="holo-header">
+                <div className="holo-status">
+                  <div className="holo-dot"></div>
+                  SECURE_VIEW :: {activeCertificate.title.toUpperCase()}
+                </div>
+                <button
+                  className="holo-close-btn"
+                  onClick={() => setActiveCertificate(null)}
+                >
+                  <X size={20} />
+                </button>
+              </div>
 
-            {/* Title */}
-            <div className="certificate-title">
-              {activeCertificate.title}
-            </div>
+              {/* Main Image */}
+              <div className="holo-body">
+                <img
+                  src={activeCertificate.imageUrl}
+                  alt={activeCertificate.title}
+                  className="certificate-image"
+                />
+              </div>
+
+              {/* Footer */}
+              <div className="holo-footer">
+                <p>CONFIDENTIALITY LEVEL: PUBLIC // VERIFIED BY RK05 SYSTEMS</p>
+              </div>
+            </motion.div>
           </motion.div>
-        </motion.div>
+        </AnimatePresence>,
+        document.body
       )}
     </div>
   );
