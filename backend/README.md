@@ -30,4 +30,4 @@ This folder contains the Node/Express backend used by the portfolio.
 - Remove `.env` from the repo and add it to `.gitignore` if not already ignored.
 
 ***
-If you want, I can also add a `render.yaml` manifest to automate the Render service configuration — tell me if you'd like that created.
+If you want, you can also add a `render.yaml` manifest to automate the Render service configuration.
