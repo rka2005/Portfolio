@@ -63,8 +63,9 @@ const HackerTerminal = ({ onClose }) => {
         }, 200);
 
         // 3. SEND TO BACKEND
-        // Ensure your backend server is running on port 5000
-        const response = await fetch('http://localhost:5000/api/upload', {
+        // Use Vite env `VITE_API_URL` when available, otherwise fall back to localhost:5000
+        const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:5000';
+        const response = await fetch(`${API_BASE}/api/upload`, {
           method: 'POST',
           body: payload,
         });
