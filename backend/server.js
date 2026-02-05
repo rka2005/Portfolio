@@ -123,7 +123,7 @@ app.post("/api/upload", upload.single("file"), async (req, res) => {
 app.get("/api/achievements", async (req, res) => {
   try {
     const page = Math.max(1, parseInt(req.query.page || '1', 10));
-    const limit = Math.max(1, Math.min(50, parseInt(req.query.limit || '12', 10)));
+    const limit = Math.max(1, Math.min(100, parseInt(req.query.limit || '100', 10)));
     const key = `${page}:${limit}`;
 
     // return cached copy when fresh

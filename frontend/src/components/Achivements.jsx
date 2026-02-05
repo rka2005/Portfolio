@@ -12,7 +12,7 @@ const achievements = [
     title: "Smart India Hackathon",
     organization: "Govt. of India",
     date: "2023",
-    description: "Secured 1st place nationwide for developing an AI-driven solution for sustainable water management using satellite data.",
+    description: "Certificate of Participation for the Internal Hackathon 2023 at Adamas University, where I developed a translator to convert Indian languages into a desired Indian language to enhance cross-language communication.",
     imageUrl: "https://images.unsplash.com/photo-1531482615713-2afd69097998?q=80&w=1740&auto=format&fit=crop", // Replace with Cloudinary
     link: "#"
   },
