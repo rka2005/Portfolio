@@ -30,6 +30,15 @@ const cardVariants = {
 export default function AchievementsPage({ onClose }) {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [activeCertificate, setActiveCertificate] = useState(null);
+
+    useEffect(() => {
+      if (activeCertificate) {
+        document.body.style.overflow = "hidden";
+      } else {
+        document.body.style.overflow = "auto";
+      }
+    }, [activeCertificate]);
 
   useEffect(() => {
     const previousOverflow = document.body.style.overflow;
@@ -139,8 +148,8 @@ export default function AchievementsPage({ onClose }) {
                 </div>
 
                 <div className="page-card-content">
-                  <div className="page-card-badge">
-                    {item.date}
+                  <div className="page-card-badge" onClick={() => setActiveCertificate(item)} style={{ cursor: "pointer" }}>
+                    Verify
                   </div>
                   
                   <h3 className="page-card-title">{item.title}</h3>
@@ -167,6 +176,44 @@ export default function AchievementsPage({ onClose }) {
           )}
         </div>
       </div>
+      {activeCertificate && (
+        <motion.div
+          className="certificate-overlay"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          onClick={() => setActiveCertificate(null)}
+        >
+          <motion.div
+            className="certificate-modal"
+            initial={{ scale: 0.85, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            exit={{ scale: 0.85, opacity: 0 }}
+            transition={{ type: "spring", stiffness: 120, damping: 18 }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Close Button */}
+            <button
+              className="certificate-close"
+              onClick={() => setActiveCertificate(null)}
+            >
+              <X size={26} />
+            </button>
+
+            {/* Certificate Image */}
+            <img
+              src={activeCertificate.imageUrl}
+              alt={activeCertificate.title}
+              className="certificate-image"
+            />
+
+            {/* Title */}
+            <div className="certificate-title">
+              {activeCertificate.title}
+            </div>
+          </motion.div>
+        </motion.div>
+      )}
     </div>
   );
 }
