@@ -13,53 +13,53 @@ const achievements = [
     organization: "Govt. of India",
     date: "2023",
     description: "Certificate of Participation for the Internal Hackathon 2023 at Adamas University, where I developed a translator to convert Indian languages into a desired Indian language to enhance cross-language communication.",
-    imageUrl: "https://images.unsplash.com/photo-1531482615713-2afd69097998?q=80&w=1740&auto=format&fit=crop", // Replace with Cloudinary
-    link: "#"
+    imageUrl: "https://res.cloudinary.com/do8upkuwu/image/upload/v1770300868/portfolio_achievements/ravdfjzgibzcei5jnurr.jpg", // Replace with Cloudinary
+    link: "https://res.cloudinary.com/do8upkuwu/image/upload/v1770300868/portfolio_achievements/ravdfjzgibzcei5jnurr.jpg"
   },
   {
     id: 2,
-    title: "AWS Certified Developer",
-    organization: "Amazon Web Services",
-    date: "CERTIFIED 2023",
-    description: "Validated expertise in developing, deploying, and debugging cloud-based applications using AWS architecture.",
-    imageUrl: "https://images.unsplash.com/photo-1523580494863-6f3031224c94?q=80&w=1740&auto=format&fit=crop", // Replace with Cloudinary
-    link: "#"
+    title: "Code for Change",
+    organization: "NSHM Knowledge Campus",
+    date: "March 2025",
+    description: "Participated in Code for Change 2025, presenting EZStudy AI, a smart study assistant that helps users quickly understand documents by summarizing PPT and Word files and answering questions using AI-powered insights.",
+    imageUrl: "https://res.cloudinary.com/do8upkuwu/image/upload/v1770209934/portfolio_achievements/phcwcpk3blaaxvvpsizm.png", // Replace with Cloudinary
+    link: "https://res.cloudinary.com/do8upkuwu/image/upload/v1770209934/portfolio_achievements/phcwcpk3blaaxvvpsizm.png"
   },
   {
     id: 3,
-    title: "Google Code Jam",
-    organization: "Google",
-    date: "TOP 50 2023",
-    description: "Competed against 10,000+ developers globally, solving complex algorithmic challenges under strict time limits.",
-    imageUrl: "https://images.unsplash.com/photo-1504384308090-c54be3855833?q=80&w=1588&auto=format&fit=crop", // Replace with Cloudinary
-    link: "#"
+    title: "NPTEL Python Cirtificate",
+    organization: "IIT Madras",
+    date: "Jul-Oct 2025",
+    description: "Completed the NPTEL course “The Joy of Computing using Python” from IIT Madras, earning an Elite certificate with 84% and building strong skills in Python programming, problem-solving, and logical thinking.",
+    imageUrl: "https://res.cloudinary.com/do8upkuwu/image/upload/v1770306370/portfolio_achievements/w7ay3f3hqghw2ko1iosj.png", // Replace with Cloudinary
+    link: "https://res.cloudinary.com/do8upkuwu/image/upload/v1770306370/portfolio_achievements/w7ay3f3hqghw2ko1iosj.png"
   },
   {
     id: 4,
-    title: "Open Source Contributor",
-    organization: "Mozilla",
-    date: "ONGOING",
-    description: "Active contributor to core repositories, improving rendering engine performance and fixing critical UI bugs.",
-    imageUrl: "https://images.unsplash.com/photo-1556075798-4825dfaaf498?q=80&w=1752&auto=format&fit=crop", // Replace with Cloudinary
-    link: "#"
+    title: "Symposium Book of Abstracts",
+    organization: "JIS University",
+    date: "19th June 2025",
+    description: "Certificate of Participation for presenting a poster on “Indian Sign Language to Text Converter in Real Time” at a JIS University symposium, showcasing an AI/ML solution to improve accessibility and real-time communication.",
+    imageUrl: "https://res.cloudinary.com/do8upkuwu/image/upload/v1770287624/portfolio_achievements/iqrbzmmxrsdzkjczohzv.jpg", // Replace with Cloudinary
+    link: "https://res.cloudinary.com/do8upkuwu/image/upload/v1770287624/portfolio_achievements/iqrbzmmxrsdzkjczohzv.jpg"
   },
   {
     id: 5,
-    title: "Full Stack Nanodegree",
-    organization: "Udacity",
-    date: "GRADUATED 2022",
-    description: "Comprehensive program covering SQL, API development, Identity Access Management, and Server Deployment.",
-    imageUrl: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=1740&auto=format&fit=crop", // Replace with Cloudinary
-    link: "#"
+    title: "Techsprint Leveraging the power of AI Hackathon",
+    organization: "Google",
+    date: "13th January 2026",
+    description: "Certificate of Participation in the TechSprint AI Hackathon 2026, where I presented AquaWatch, an idea focused on smart water monitoring and management using technology to improve efficiency and sustainability.",
+    imageUrl: "https://res.cloudinary.com/do8upkuwu/image/upload/v1770208867/portfolio_achievements/gibgb2q9jpariipoa7iv.jpg", // Replace with Cloudinary
+    link: "https://res.cloudinary.com/do8upkuwu/image/upload/v1770208867/portfolio_achievements/gibgb2q9jpariipoa7iv.jpg"
   },
   {
     id: 6,
-    title: "Full Stack Nanodegree",
-    organization: "Udacity",
+    title: "Cloud Developing Training Badge",
+    organization: "AWS",
     date: "GRADUATED 2022",
-    description: "Comprehensive program covering SQL, API development, Identity Access Management, and Server Deployment.",
-    imageUrl: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=1740&auto=format&fit=crop", // Replace with Cloudinary
-    link: "#"
+    description: "Completed AWS Academy Cloud Developing training, gaining practical knowledge of cloud computing, AWS services, application deployment, storage, and managing scalable cloud-based solutions.",
+    imageUrl: "https://res.cloudinary.com/do8upkuwu/image/upload/v1770311161/portfolio_achievements/lh59pv5jl80wfkoqafye.png", // Replace with Cloudinary
+    link: "https://res.cloudinary.com/do8upkuwu/image/upload/v1770311161/portfolio_achievements/lh59pv5jl80wfkoqafye.png"
   }
 ];
 
