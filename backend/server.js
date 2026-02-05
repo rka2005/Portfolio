@@ -122,9 +122,19 @@ app.post("/api/upload", upload.single("file"), async (req, res) => {
 // Fetch Achievements Route (FAST)
 app.get("/api/achievements", async (req, res) => {
   try {
-    const page = Math.max(1, parseInt(req.query.page || '1', 10));
-    const limit = Math.max(1, Math.min(100, parseInt(req.query.limit || '100', 10)));
-    const key = `${page}:${limit}`;
+    // If client omits `limit` we return ALL achievements.
+    const page = parseInt(req.query.page || '1', 10);
+    const limitRaw = req.query.limit;
+    let limit;
+    if (typeof limitRaw === 'undefined') {
+      // no limit specified -> return all
+      limit = 0;
+    } else {
+      const parsed = parseInt(limitRaw || '12', 10);
+      // allow larger limits up to 1000 when explicitly requested
+      limit = Math.max(1, Math.min(1000, parsed));
+    }
+    const key = limit === 0 ? `all` : `${Math.max(1, page)}:${limit}`;
 
     // return cached copy when fresh
     const cached = cache.get(key);
@@ -132,13 +142,19 @@ app.get("/api/achievements", async (req, res) => {
       return res.json({ success: true, data: cached.data, cached: true });
     }
 
-    const items = await db
+    const cursor = db
       .collection('achievements')
       .find({}, { projection: { title: 1, description: 1, cloudinaryId: 1, imageUrl: 1, createdAt: 1 } })
-      .sort({ createdAt: -1 })
-      .skip((page - 1) * limit)
-      .limit(limit)
-      .toArray();
+      .sort({ createdAt: -1 });
+
+    // If limit === 0 then return all items (ignore pagination)
+    let items;
+    if (limit === 0) {
+      items = await cursor.toArray();
+    } else {
+      const pageNum = Math.max(1, page);
+      items = await cursor.skip((pageNum - 1) * limit).limit(limit).toArray();
+    }
 
     // build smaller/responsive image URLs when cloudinaryId available
     const transformed = items.map(item => {
