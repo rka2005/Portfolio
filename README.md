@@ -21,56 +21,69 @@ Top-level layout:
 
 ```
 Portfolio
+├─ README.md
+├─ render.yaml
 ├─ backend
-│  ├─ .env                 # environment variables (not committed)
-│  ├─ db.js                # lightweight data access / mock DB
-│  ├─ models
-│  │  └─ Achievement.js    # Achievement model / schema
+│  ├─ .env
+│  ├─ .gitignore
+│  ├─ db.js
 │  ├─ package.json
-│  ├─ README.md            # backend README / instructions
-│  └─ server.js            # Express server
-├─ frontend
-│  ├─ index.html
-│  ├─ package.json
-│  ├─ postcss.config.js
-│  ├─ tailwind.config.js
-│  ├─ vite.config.js
-│  ├─ public
-│  │  └─ logos
-│  └─ src
-│     ├─ App.jsx
-│     ├─ index.css
-│     ├─ main.jsx
-│     ├─ firebase.js        # (if present) firebase config
-│     ├─ assets
-│     │  └─ projects       # images/assets for project cards
-│     └─ components
-│        ├─ About.jsx
-│        ├─ Analytics.jsx       # new analytics/statistics section
-│        ├─ Achivements.jsx
-│        ├─ Achivements.css
-│        ├─ AchievementsPage.jsx
-│        ├─ AchievementsPage.css
-│        ├─ Background.jsx
-│        ├─ Background.css
-│        ├─ Contact.jsx
-│        ├─ Contact.css
-│        ├─ Footer.jsx
-│        ├─ Footer.css
-│        ├─ HamburgerButton.jsx
-│        ├─ HeroSection.jsx
-│        ├─ Loader.jsx
-│        ├─ Loader.css
-│        ├─ LogoLoop.jsx
-│        ├─ LogoLoop.css
-│        ├─ Navbar.jsx
-│        ├─ Projects.jsx
-│        ├─ ScrollFloat.jsx
-│        ├─ ScrollFloat.css
-│        ├─ Skills.jsx
-│        ├─ UploadForm.jsx
-│        └─ ...other helper components
-└─ README.md
+│  ├─ package-lock.json
+│  ├─ README.md
+│  └─ server.js
+└─ frontend
+   ├─ index.html
+   ├─ package.json
+   ├─ package-lock.json
+   ├─ postcss.config.js
+   ├─ README.md
+   ├─ tailwind.config.js
+   ├─ vercel.json
+   ├─ vite.config.js
+   ├─ .vite
+   ├─ public
+   │  └─ logos
+   └─ src
+      ├─ App.css
+      ├─ App.jsx
+      ├─ index.css
+      ├─ main.jsx
+      ├─ assets
+      │  └─ projects
+      └─ components
+         ├─ About.jsx
+         ├─ AchievementLoader.css
+         ├─ AchievementLoader.jsx
+         ├─ AchievementsPage.css
+         ├─ AchievementsPage.jsx
+         ├─ Achivements.css
+         ├─ Achivements.jsx
+         ├─ AllProjects.css
+         ├─ AllProjects.jsx
+         ├─ Analytics.css
+         ├─ Analytics.jsx
+         ├─ Background.css
+         ├─ Background.jsx
+         ├─ Contact.css
+         ├─ Contact.jsx
+         ├─ Footer.css
+         ├─ Footer.jsx
+         ├─ HackerLoginPage.css
+         ├─ HamburgerButton.jsx
+         ├─ HeroSection.css
+         ├─ HeroSection.jsx
+         ├─ Loader.css
+         ├─ Loader.jsx
+         ├─ LogoLoop.css
+         ├─ LogoLoop.jsx
+         ├─ Projects.jsx
+         ├─ ScrollFloat.css
+         ├─ ScrollFloat.jsx
+         ├─ Sign.css
+         ├─ Sign.jsx
+         ├─ Skills.jsx
+         ├─ UploadForm.css
+         └─ UploadForm.jsx
 ```
 
 ## New Analytics section
