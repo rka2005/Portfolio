@@ -297,44 +297,31 @@ Profile Image: Replace frontend/public/logos/ with your images
 
 Resume: Update links in components if needed
 
-### 2️⃣ Edit Projects
-Edit frontend/src/components/Projects.jsx:
-
-const projects = [
-  {
-    title: "Your Project Name",
-    description: "Your project description",
-    tech: ["React", "JavaScript", "Tailwind"],
-    github: "https://github.com/your-repo",
-    demo: "https://your-demo.com",
-    thumbnail: "/projects/your-image.png",
-  },
-  // ... more projects
-];
-
-### 3️⃣ Update Skills
+### 2️⃣ Update Skills
 Edit frontend/src/components/Skills.jsx to add your skills.
 
-### 4️⃣ Customize Theme Colors
+### 3️⃣ Customize Theme Colors
 Edit frontend/src/index.css for color schemes.
 
-### 5️⃣ Setup Contact Form
+### 4️⃣ Setup Contact Form
 Add environment variables in backend/.env for contact API.
 
-### 6️⃣ Update Social Links
+### 5️⃣ Update Social Links
 Edit frontend/src/components/Footer.jsx and other components for links.
 
 ## 📊 Project Metrics
-Metric	Value	Notes
-Code Volume	2000+ lines	React JSX + CSS + backend JS
-Components	25+ main + supporting	Custom React components
-Type Coverage	JavaScript (JSX)	Dynamic and flexible
-Production Deps	30+	Carefully curated packages
-Bundle Size	~500 KB	Minified, optimized
-Build Time	<20 seconds	Vite with esbuild
-Animations	10+ keyframes	CSS + Framer Motion
-Accessibility	WCAG compliant	Keyboard navigation, semantic HTML
-Responsive Points	4+ breakpoints	Mobile-first design
+
+| Metric | Value | Notes |
+|--------|-------|-------|
+| Code Volume | 2000+ lines | React JSX + CSS + backend JS |
+| Components | 25+ main + supporting | Custom React components |
+| Type Coverage | JavaScript (JSX) | Dynamic and flexible |
+| Production Deps | 30+ | Carefully curated packages |
+| Bundle Size | ~500 KB | Minified, optimized |
+| Build Time | <20 seconds | Vite with esbuild |
+| Animations | 10+ keyframes | CSS + Framer Motion |
+| Accessibility | WCAG compliant | Keyboard navigation, semantic HTML |
+| Responsive Points | 4+ breakpoints | Mobile-first design |
 
 ## 🤝 Contributing
 🎉 Contributions are welcome! Please follow these steps:
