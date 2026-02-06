@@ -1,5 +1,3 @@
-
-```
 Portfolio
 # Portfolio
 
@@ -73,7 +71,6 @@ Portfolio
 │        ├─ UploadForm.jsx
 │        └─ ...other helper components
 └─ README.md
-
 ```
 
 ## New Analytics section
