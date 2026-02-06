@@ -13,12 +13,15 @@
 .achievements-section {
   position: relative;
   width: 100%;
-  padding: 60px 20px;
-  /* background: linear-gradient(to bottom, 
-    rgba(0, 0, 0, 0.95) 0%,
-    rgba(10, 15, 25, 0.98) 50%,
-    rgba(0, 0, 0, 0.95) 100%); */
+  min-height: 80vh;
+  padding: 120px 20px 80px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   overflow: visible;
+  margin-top: -70px;
 }
 
 /* Animated Background */

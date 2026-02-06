@@ -16,12 +16,19 @@ export default function HeroSection({ onLoginClick }) {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
+          // Use a more reliable detection: if a section is intersecting the 
+          // upper-middle part of the viewport, set it as active.
           if (entry.isIntersecting) {
             setActiveSection(entry.target.id);
           }
         });
       },
-      { rootMargin: '-50% 0% -50% 0%', threshold: 0 }
+      { 
+        // rootMargin explains: top 20%, bottom 70% are ignored. 
+        // This picks the section in the "sweet spot" of the screen.
+        rootMargin: '-25% 0% -65% 0%', 
+        threshold: 0 
+      }
     );
     sections.forEach((section) => observer.observe(section));
     return () => sections.forEach((section) => observer.unobserve(section));
@@ -30,6 +37,8 @@ export default function HeroSection({ onLoginClick }) {
   // --- 2. Underline Logic ---
   useEffect(() => {
     if (!navRef.current) return;
+    
+    // Tiny delay to ensure DOM is ready and calculations are accurate
     const timeoutId = setTimeout(() => {
       const activeLink = navRef.current.querySelector(`[data-section="${activeSection}"]`);
       if (activeLink) {
@@ -39,9 +48,9 @@ export default function HeroSection({ onLoginClick }) {
           width: parentLi.offsetWidth,
         });
       }
-    }, 50);
+    }, 100);
     return () => clearTimeout(timeoutId);
-  }, [activeSection]);
+  }, [activeSection, isMobileMenuOpen]);
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -103,6 +112,8 @@ export default function HeroSection({ onLoginClick }) {
               <a
                 href={`#${item}`}
                 data-section={item}
+                className={activeSection === item ? 'active' : ''}
+                data-section-name={item}
                 onClick={(e) => handleScroll(e, item)}
               >
                 {item.charAt(0).toUpperCase() + item.slice(1)}
