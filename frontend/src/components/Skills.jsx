@@ -15,6 +15,9 @@ const techLogos = [
   { src: "/logos/github.svg", alt: "GitHub" },
   { src: "/logos/mongodb.svg", alt: "MongoDB" },
   { src: "/logos/fastapi.svg", alt: "FastAPI" },
+  { src: "/logos/mysql.svg", alt: "MySQL" },
+  { src: "/logos/web-design.svg", alt: "UIUX" },
+  { src: "/logos/node-js.svg", alt: "NodeJS" },
 ];
 
 export default function Skills() {
