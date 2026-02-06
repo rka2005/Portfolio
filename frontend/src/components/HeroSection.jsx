@@ -107,7 +107,7 @@ export default function HeroSection({ onLoginClick }) {
 
         {/* Desktop Navigation */}
         <ul className="nav-links desktop-nav" ref={navRef}>
-          {['home', 'about', 'skills', 'projects','achievements', 'contact'].map((item) => (
+          {['home', 'about', 'analytics', 'skills', 'projects','achievements', 'contact'].map((item) => (
             <li key={item}>
               <a
                 href={`#${item}`}
@@ -116,7 +116,7 @@ export default function HeroSection({ onLoginClick }) {
                 data-section-name={item}
                 onClick={(e) => handleScroll(e, item)}
               >
-                {item.charAt(0).toUpperCase() + item.slice(1)}
+                {item === 'analytics' ? 'Analytics' : item.charAt(0).toUpperCase() + item.slice(1)}
               </a>
             </li>
           ))}
@@ -142,14 +142,14 @@ export default function HeroSection({ onLoginClick }) {
               transition={{ duration: 0.3 }}
             >
               <ul className="mobile-nav-links">
-                {['home', 'about', 'skills', 'projects', 'achievements', 'contact'].map((item) => (
+                {['home', 'about', 'analytics', 'skills', 'projects', 'achievements', 'contact'].map((item) => (
                   <li key={item}>
                     <a
                       href={`#${item}`}
                       className={activeSection === item ? 'active' : ''}
                       onClick={(e) => handleScroll(e, item)}
                     >
-                      {item.charAt(0).toUpperCase() + item.slice(1)}
+                      {item === 'analytics' ? 'Analytics' : item.charAt(0).toUpperCase() + item.slice(1)}
                     </a>
                   </li>
                 ))}

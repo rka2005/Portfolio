@@ -1,0 +1,308 @@
+/* ===== Analytics Section ===== */
+
+.analytics-section {
+  position: relative;
+  width: 100%;
+  min-height: 50vh;
+  padding: 100px 20px 80px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+/* --- Ambient Background Glows --- */
+.analytics-bg-glow {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  filter: blur(100px);
+  z-index: 0;
+}
+
+.analytics-bg-glow-1 {
+  width: 500px;
+  height: 500px;
+  top: -10%;
+  left: -5%;
+  background: radial-gradient(circle, rgba(0, 255, 191, 0.06) 0%, transparent 70%);
+}
+
+.analytics-bg-glow-2 {
+  width: 400px;
+  height: 400px;
+  bottom: -10%;
+  right: -5%;
+  background: radial-gradient(circle, rgba(0, 243, 255, 0.06) 0%, transparent 70%);
+}
+
+/* --- Section Header --- */
+.analytics-header {
+  text-align: center;
+  margin-bottom: 60px;
+  position: relative;
+  z-index: 2;
+}
+
+.analytics-title {
+  font-family: 'Montserrat', 'Inter', sans-serif;
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 800;
+  background: linear-gradient(135deg, #ffffff 0%, #00f3ff 60%, #00ffbf 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin: 0 0 16px;
+  letter-spacing: -1px;
+  position: relative;
+  display: inline-block;
+}
+
+.analytics-title::after {
+  content: '';
+  position: absolute;
+  bottom: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, #00ffbf, transparent);
+  box-shadow: 0 0 12px rgba(0, 255, 191, 0.5);
+  border-radius: 2px;
+}
+
+.analytics-subtitle {
+  color: #8892b0;
+  font-size: 1rem;
+  max-width: 500px;
+  margin: 25px auto 0;
+  line-height: 1.7;
+  font-weight: 400;
+}
+
+/* --- Stats Grid --- */
+.analytics-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 30px;
+  max-width: 1000px;
+  width: 100%;
+  padding: 0 20px;
+  position: relative;
+  z-index: 2;
+}
+
+/* --- Individual Stat Card --- */
+.analytics-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px 35px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(0, 255, 191, 0.08);
+  backdrop-filter: blur(12px);
+  cursor: default;
+  transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+  overflow: hidden;
+}
+
+.analytics-card:hover {
+  border-color: rgba(0, 255, 191, 0.25);
+  background: rgba(255, 255, 255, 0.05);
+  box-shadow:
+    0 20px 40px -15px rgba(0, 0, 0, 0.5),
+    0 0 30px -10px rgba(0, 255, 191, 0.15);
+}
+
+/* Glow behind card on hover */
+.card-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 120%;
+  height: 120%;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle, rgba(0, 255, 191, 0.06) 0%, transparent 70%);
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.analytics-card:hover .card-glow {
+  opacity: 1;
+}
+
+/* --- Icon --- */
+.analytics-icon-wrapper {
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 14px;
+  background: rgba(0, 255, 191, 0.08);
+  border: 1px solid rgba(0, 255, 191, 0.12);
+  margin-bottom: 20px;
+  transition: all 0.4s ease;
+  position: relative;
+  z-index: 1;
+}
+
+.analytics-card:hover .analytics-icon-wrapper {
+  background: rgba(0, 255, 191, 0.12);
+  border-color: rgba(0, 255, 191, 0.3);
+  box-shadow: 0 0 20px rgba(0, 255, 191, 0.15);
+  transform: scale(1.1);
+}
+
+.stat-icon {
+  width: 24px;
+  height: 24px;
+  color: #00ffbf;
+  transition: all 0.4s ease;
+}
+
+.analytics-card:hover .stat-icon {
+  color: #00ffff;
+  filter: drop-shadow(0 0 6px rgba(0, 255, 255, 0.4));
+}
+
+/* --- Counter Value --- */
+.analytics-value {
+  display: flex;
+  align-items: baseline;
+  gap: 2px;
+  margin-bottom: 8px;
+  position: relative;
+  z-index: 1;
+}
+
+.analytics-number {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 2.8rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, #ffffff 30%, #00ffbf 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1;
+  transition: all 0.4s ease;
+}
+
+.analytics-card:hover .analytics-number {
+  background: linear-gradient(135deg, #ffffff 20%, #00ffff 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+.analytics-suffix {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #00ffbf;
+  transition: color 0.4s ease;
+}
+
+.analytics-card:hover .analytics-suffix {
+  color: #00ffff;
+  text-shadow: 0 0 10px rgba(0, 255, 255, 0.4);
+}
+
+/* --- Label --- */
+.analytics-label {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: #8892b0;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  margin: 0;
+  position: relative;
+  z-index: 1;
+  transition: color 0.4s ease;
+}
+
+.analytics-card:hover .analytics-label {
+  color: #a8b2d1;
+}
+
+/* --- Bottom Accent Line --- */
+.card-accent-line {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #00ffbf, #00ffff, transparent);
+  border-radius: 2px;
+  transition: width 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.analytics-card:hover .card-accent-line {
+  width: 80%;
+  box-shadow: 0 0 12px rgba(0, 255, 191, 0.4);
+}
+
+/* ===== Responsive ===== */
+
+@media (max-width: 900px) {
+  .analytics-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    max-width: 500px;
+  }
+
+  .analytics-section {
+    padding: 80px 20px 60px;
+  }
+}
+
+@media (max-width: 480px) {
+  .analytics-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    padding: 0 10px;
+  }
+
+  .analytics-card {
+    padding: 30px 15px 25px;
+    border-radius: 16px;
+  }
+
+  .analytics-number {
+    font-size: 2.2rem;
+  }
+
+  .analytics-suffix {
+    font-size: 1.4rem;
+  }
+
+  .analytics-label {
+    font-size: 0.75rem;
+  }
+
+  .analytics-icon-wrapper {
+    width: 42px;
+    height: 42px;
+    margin-bottom: 14px;
+  }
+
+  .stat-icon {
+    width: 20px;
+    height: 20px;
+  }
+
+  .analytics-title {
+    font-size: 1.8rem;
+  }
+
+  .analytics-subtitle {
+    font-size: 0.9rem;
+  }
+}

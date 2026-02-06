@@ -4,6 +4,7 @@ import "./index.css";
 import Particles from './components/Background';
 import HeroSection from "./components/HeroSection";
 import About from "./components/About";
+import Analytics from "./components/Analytics";
 import Skills from "./components/Skills";
 import Projects from "./components/Projects";
 import Achivements from "./components/Achivements";
@@ -20,6 +21,7 @@ function HomePage({ onLoginClick }) {
       <main style={{ position: 'relative', marginTop: '-70px', zIndex: 1 }}>
         <HeroSection onLoginClick={onLoginClick} />
         <About />
+        <Analytics />
         <Skills />
         <Projects />
         <Achivements />
