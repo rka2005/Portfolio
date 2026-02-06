@@ -56,7 +56,7 @@ const achievements = [
     id: 6,
     title: "Cloud Developing Training Badge",
     organization: "AWS",
-    date: "GRADUATED 2022",
+    date: "January 2026",
     description: "Completed AWS Academy Cloud Developing training, gaining practical knowledge of cloud computing, AWS services, application deployment, storage, and managing scalable cloud-based solutions.",
     imageUrl: "https://res.cloudinary.com/do8upkuwu/image/upload/v1770311161/portfolio_achievements/lh59pv5jl80wfkoqafye.png", // Replace with Cloudinary
     link: "https://res.cloudinary.com/do8upkuwu/image/upload/v1770311161/portfolio_achievements/lh59pv5jl80wfkoqafye.png"
