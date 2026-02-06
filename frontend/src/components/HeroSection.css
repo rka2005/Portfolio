@@ -1,0 +1,81 @@
+/* Explore More Section */
+
+.explore-more {
+  margin-top: 60px;
+  text-align: center;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  transition: all 0.4s ease;
+  z-index: 5;
+}
+
+.explore-more span {
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 4px;
+  transition: all 0.4s ease;
+}
+
+.explore-more:hover span {
+  color: #00ffbf;
+  letter-spacing: 6px;
+  transform: translateY(3px);
+}
+
+/* Professional Double Down Arrow indicator */
+.scroll-arrow {
+  position: relative;
+  width: 20px;
+  height: 25px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.scroll-arrow::before,
+.scroll-arrow::after {
+  content: '';
+  width: 12px;
+  height: 12px;
+  border-right: 2px solid #00ffbf;
+  border-bottom: 2px solid #00ffbf;
+  transform: rotate(45deg);
+  position: absolute;
+  animation: scrollChevron 2s infinite;
+  opacity: 0;
+}
+
+.scroll-arrow::before {
+  top: 0;
+  animation-delay: 0s;
+}
+
+.scroll-arrow::after {
+  top: 8px;
+  animation-delay: 0.3s;
+}
+
+.explore-more:hover .scroll-arrow::before,
+.explore-more:hover .scroll-arrow::after {
+  border-color: #00ffff;
+}
+
+@keyframes scrollChevron {
+  0% {
+    transform: rotate(45deg) translate(-5px, -5px);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: rotate(45deg) translate(5px, 5px);
+    opacity: 0;
+  }
+}

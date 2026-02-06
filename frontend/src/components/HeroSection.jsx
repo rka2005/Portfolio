@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import Typewriter from "typewriter-effect";
 import { motion, AnimatePresence } from "framer-motion";
 import HamburgerButton from './HamburgerButton';
+import './HeroSection.css';
 
 export default function HeroSection({ onLoginClick }) {
   const [activeSection, setActiveSection] = useState('home');
@@ -177,6 +178,17 @@ export default function HeroSection({ onLoginClick }) {
           <a href="#projects" onClick={(e) => handleScroll(e, 'projects')}>
             <button className="modern-btn">View My Work</button>
           </a>
+        </motion.div>
+
+        <motion.div 
+          className="explore-more" 
+          onClick={(e) => handleScroll(e, "about")}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.5, duration: 1 }}
+        >
+          <span>Explore More</span>
+          <div className="scroll-arrow"></div>
         </motion.div>
       </div>
     </section>
