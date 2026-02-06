@@ -365,13 +365,6 @@ git push origin feature/amazing-feature
 
 🔄 Open a Pull Request on the main repository
 
-### 📋 Contribution Guidelines
-📝 Follow existing code style and TypeScript conventions
-🏷️ Add proper TypeScript types to all new code
-📱 Test changes on multiple devices (desktop, tablet, mobile)
-📚 Update README if adding new features
-💬 Keep commits focused and descriptive
-
 ## 🐛 Troubleshooting
 
 **Port Already in Use**
