@@ -177,44 +177,6 @@ app.get("/api/achievements", async (req, res) => {
   }
 });
 
-
-// CONTACT MESSAGE ROUTE
-app.post("/api/contact", async (req, res) => {
-  try {
-    const { name, email, message } = req.body;
-
-    // Basic validation
-    if (!name || !email || !message) {
-      return res.status(400).json({
-        success: false,
-        message: "All fields are required"
-      });
-    }
-
-    const doc = {
-      name,
-      email,
-      message,
-      createdAt: new Date()
-    };
-
-    await db.collection("messages").insertOne(doc);
-
-    res.status(201).json({
-      success: true,
-      message: "Message sent successfully"
-    });
-
-  } catch (error) {
-    console.error("Contact Error:", error);
-    res.status(500).json({
-      success: false,
-      message: "Server Error"
-    });
-  }
-});
-
-
 // --- CONNECT DB & START SERVER ---
 connectToMongo()
   .then((database) => {
