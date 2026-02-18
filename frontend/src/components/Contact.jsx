@@ -3,7 +3,6 @@ import ScrollFloat from "../components/ScrollFloat";
 import { FiSend } from "react-icons/fi";
 import './Contact.css';
 import { useEffect, useRef } from "react";
-import { useForm, ValidationError } from "@formspree/react";
 
 const sectionVariants = {
   hidden: { opacity: 0, y: 50 },
@@ -17,15 +16,42 @@ const sectionVariants = {
 export default function Contact() {
 
   const formRef = useRef(null);
-  const formId = import.meta.env.VITE_FORMSPREE_ID;
-  const [state, handleSubmit] = useForm(formId);
 
-  useEffect(() => {
-    if (state.succeeded) {
-      alert("Thank you! Your message has been sent successfully.");
-      formRef.current?.reset();
+  // Handle form submission
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const formData = new FormData(formRef.current);
+
+    const data = {
+      name: formData.get("name"),
+      email: formData.get("email"),
+      message: formData.get("message")
+    };
+
+    try {
+      const res = await fetch("https://your-backend-url/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+      });
+
+      const result = await res.json();
+
+      if (result.success) {
+        alert("Message sent successfully!");
+        formRef.current.reset();
+      } else {
+        alert("Failed to send message");
+      }
+
+    } catch (error) {
+      console.error(error);
+      alert("Server error");
     }
-  }, [state.succeeded]);
+  };
 
   return (
     <section id="contact" className="section">
