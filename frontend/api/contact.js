@@ -1,18 +1,4 @@
-import { initializeApp, getApps, cert } from "firebase-admin/app";
-import { getFirestore } from "firebase-admin/firestore";
 import nodemailer from "nodemailer";
-
-// Initialize Firebase Admin (uses FIREBASE_SERVICE_ACCOUNT env var on Vercel)
-if (!getApps().length) {
-  const serviceAccount = JSON.parse(
-    process.env.FIREBASE_SERVICE_ACCOUNT || "{}"
-  );
-  initializeApp({
-    credential: cert(serviceAccount),
-  });
-}
-
-const db = getFirestore();
 
 // Configure Nodemailer with Gmail SMTP
 const transporter = nodemailer.createTransport({
@@ -24,6 +10,15 @@ const transporter = nodemailer.createTransport({
 });
 
 export default async function handler(req, res) {
+  // Set CORS headers
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+
+  if (req.method === "OPTIONS") {
+    return res.status(200).end();
+  }
+
   if (req.method !== "POST") {
     return res.status(405).json({ message: "Method not allowed" });
   }
@@ -35,15 +30,7 @@ export default async function handler(req, res) {
       return res.status(400).json({ message: "All fields are required" });
     }
 
-    // 1. Save to Firestore via Admin SDK
-    await db.collection("contacts").add({
-      name,
-      email,
-      message,
-      createdAt: new Date(),
-    });
-
-    // 2. Send email notification to you
+    // Send email notification via Gmail SMTP
     await transporter.sendMail({
       from: `"Portfolio Contact" <${process.env.GMAIL_USER}>`,
       to: process.env.GMAIL_USER,
@@ -71,7 +58,7 @@ export default async function handler(req, res) {
     console.error("Serverless function error:", error);
     return res.status(500).json({
       success: false,
-      message: "Server Error",
+      message: "Email sending failed: " + error.message,
     });
   }
 }

@@ -39,15 +39,19 @@ export default function Contact() {
       });
 
       // 2. Send email via Vercel serverless function
-      const res = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-      });
+      try {
+        const res = await fetch("/api/contact", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data),
+        });
 
-      const result = await res.json();
-      if (!result.success) {
-        console.warn("Email sending failed, but message was saved.");
+        if (!res.ok) {
+          const text = await res.text();
+          console.warn("Email API error:", text);
+        }
+      } catch (emailErr) {
+        console.warn("Email sending failed, but message was saved.", emailErr);
       }
 
       alert("Message sent successfully 🚀");
