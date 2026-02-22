@@ -17,6 +17,11 @@ const HackerLoginPage = ({ onClose, onSuccess }) => {
   const [verifyBtnStatus, setVerifyBtnStatus] = useState('default');
   const [verifyBtnText, setVerifyBtnText] = useState('>> DECRYPT & VERIFY');
 
+  // Login Attempt Limiting
+  const [failedAttempts, setFailedAttempts] = useState(0);
+  const [lockoutUntil, setLockoutUntil] = useState(null);
+  const [remainingTime, setRemainingTime] = useState(0);
+
   // Refs for animations
   const barRef = useRef(null);
 
@@ -26,6 +31,28 @@ const HackerLoginPage = ({ onClose, onSuccess }) => {
         emailjs.init(import.meta.env.VITE_EMAILJS_PUBLIC_KEY);
     }
   }, []);
+
+  // Lockout Timer - Countdown every second
+  useEffect(() => {
+    if (!lockoutUntil) return;
+
+    const interval = setInterval(() => {
+      const now = Date.now();
+      const timeLeft = lockoutUntil - now;
+
+      if (timeLeft <= 0) {
+        // Lockout expired
+        setLockoutUntil(null);
+        setFailedAttempts(0);
+        setRemainingTime(0);
+        setTerminalTitle('ROOT@ACCESS:~$ ./login.sh');
+      } else {
+        setRemainingTime(Math.ceil(timeLeft / 1000));
+      }
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [lockoutUntil]);
 
   // --- HELPER FUNCTIONS ---
   const generateOTP = () => Math.floor(100000 + Math.random() * 900000).toString();
@@ -54,6 +81,13 @@ const HackerLoginPage = ({ onClose, onSuccess }) => {
     const { email, user, pass } = formData;
     if (!email || !user || !pass) return showToast("ERROR: MISSING CREDENTIALS");
 
+    // Check if account is locked
+    if (lockoutUntil && Date.now() < lockoutUntil) {
+      const minutesLeft = Math.ceil(remainingTime / 60);
+      const secondsLeft = remainingTime % 60;
+      return showToast(`ACCOUNT LOCKED. TRY AGAIN IN ${minutesLeft}m ${secondsLeft}s`);
+    }
+
     // ✅ Load Admin Credentials from .env
     const ADMIN_EMAIL = import.meta.env.VITE_ADMIN_EMAIL;
     const ADMIN_USER = import.meta.env.VITE_ADMIN_USER;
@@ -72,8 +106,31 @@ const HackerLoginPage = ({ onClose, onSuccess }) => {
       normalize(user) !== normalize(ADMIN_USER) ||
       pass.toString().trim() !== ADMIN_PASS.toString().trim()
     ) {
-      return showToast("ERROR: UNAUTHORIZED CREDENTIALS");
+      // Increment failed attempts
+      const newFailedAttempts = failedAttempts + 1;
+      setFailedAttempts(newFailedAttempts);
+
+      if (newFailedAttempts >= 3) {
+        // Lock account for 10 minutes
+        const lockUntil = Date.now() + (2 * 60 * 1000);
+        setLockoutUntil(lockUntil);
+        setRemainingTime(5 * 60); // 5 minutes in seconds
+        setTerminalTitle('!! ACCOUNT LOCKED !!');
+        showToast("TOO MANY FAILED ATTEMPTS. ACCOUNT LOCKED FOR 5 MINUTES.");
+        // Clear form fields after user clicks OK
+        setFormData({ email: '', user: '', pass: '', otp: '' });
+        return;
+      }
+
+      showToast(`ERROR: UNAUTHORIZED CREDENTIALS (${newFailedAttempts}/3)`);
+      // Clear form fields after user clicks OK
+      setFormData({ email: '', user: '', pass: '', otp: '' });
+      return;
     }
+
+    // Reset failed attempts on successful credentials
+    setFailedAttempts(0);
+    setLockoutUntil(null);
 
     
     const otp = generateOTP();
@@ -167,6 +224,13 @@ const HackerLoginPage = ({ onClose, onSuccess }) => {
     return {};
   };
 
+  const isLockedOut = lockoutUntil && Date.now() < lockoutUntil;
+  const formatTime = (seconds) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins}:${secs.toString().padStart(2, '0')}`;
+  };
+
   return (
     <div className={`hacker-login-wrapper ${isClosing ? 'crt-power-off' : ''}`}>
       <div className="hl-scanlines"></div>
@@ -201,24 +265,70 @@ const HackerLoginPage = ({ onClose, onSuccess }) => {
           {step === 1 && !isLoading && (
             <div className="hl-form-box hl-active-box">
               <div className="hl-boot-sequence">
-                <p>{'>'} INITIATING LOGIN PROTOCOL...</p>
-                <p>{'>'} AWAITING CREDENTIALS...</p>
+                {isLockedOut ? (
+                  <>
+                    <p className="alert-text" style={{ color: '#ff3333' }}>{'>'} SECURITY LOCKOUT ACTIVATED</p>
+                    <p style={{ color: '#ff3333' }}>{'>'} TOO MANY FAILED ATTEMPTS DETECTED</p>
+                    <p style={{ color: '#ffaa00', marginTop: '10px' }}>{'>'} RETRY IN: <span style={{ fontSize: '1.2em', fontWeight: 'bold' }}>{formatTime(remainingTime)}</span></p>
+                  </>
+                ) : (
+                  <>
+                    <p>{'>'} INITIATING LOGIN PROTOCOL...</p>
+                    <p>{'>'} AWAITING CREDENTIALS...</p>
+                  </>
+                )}
               </div>
               <form className="hl-terminal-form">
                 <div className="hl-input-group hl-boot-item delay-1">
                   <label htmlFor="email">email_addr {'>'}</label>
-                  <input type="email" id="email" value={formData.email} onChange={handleInputChange} autoComplete="off" spellCheck="false" />
+                  <input 
+                    type="email" 
+                    id="email" 
+                    value={formData.email} 
+                    onChange={handleInputChange} 
+                    autoComplete="off" 
+                    spellCheck="false"
+                    disabled={isLockedOut}
+                    style={isLockedOut ? { opacity: 0.5, cursor: 'not-allowed', backgroundColor: '#1a0000' } : {}}
+                  />
+                  {isLockedOut && <span style={{ color: '#ff3333', fontSize: '0.8em' }}>🔒 LOCKED</span>}
                 </div>
                 <div className="hl-input-group hl-boot-item delay-2">
                   <label htmlFor="user">usr_id {'>'}</label>
-                  <input type="text" id="user" value={formData.user} onChange={handleInputChange} autoComplete="off" spellCheck="false" />
+                  <input 
+                    type="text" 
+                    id="user" 
+                    value={formData.user} 
+                    onChange={handleInputChange} 
+                    autoComplete="off" 
+                    spellCheck="false"
+                    disabled={isLockedOut}
+                    style={isLockedOut ? { opacity: 0.5, cursor: 'not-allowed', backgroundColor: '#1a0000' } : {}}
+                  />
+                  {isLockedOut && <span style={{ color: '#ff3333', fontSize: '0.8em' }}>🔒 LOCKED</span>}
                 </div>
                 <div className="hl-input-group hl-boot-item delay-3">
                   <label htmlFor="pass">passwd {'>'}</label>
-                  <input type="password" id="pass" value={formData.pass} onChange={handleInputChange} />
+                  <input 
+                    type="password" 
+                    id="pass" 
+                    value={formData.pass} 
+                    onChange={handleInputChange}
+                    disabled={isLockedOut}
+                    style={isLockedOut ? { opacity: 0.5, cursor: 'not-allowed', backgroundColor: '#1a0000' } : {}}
+                  />
+                  {isLockedOut && <span style={{ color: '#ff3333', fontSize: '0.8em' }}>🔒 LOCKED</span>}
                 </div>
-                <button type="button" onClick={handleLoginWithOTP} className="hl-cyber-button hl-boot-item delay-4">
-                  <span className="btn-text">{'>'}{'>'} EXECUTE LOGIN</span>
+                <button 
+                  type="button" 
+                  onClick={handleLoginWithOTP} 
+                  className="hl-cyber-button hl-boot-item delay-4"
+                  disabled={isLockedOut}
+                  style={isLockedOut ? { opacity: 0.5, cursor: 'not-allowed', borderColor: '#ff3333' } : {}}
+                >
+                  <span className="btn-text">
+                    {isLockedOut ? '🔒 SYSTEM LOCKED' : <>{'>'}{'>'} EXECUTE LOGIN</>}
+                  </span>
                 </button>
               </form>
             </div>
