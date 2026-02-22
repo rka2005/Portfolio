@@ -2,8 +2,9 @@ import { motion } from "framer-motion";
 import ScrollFloat from "../components/ScrollFloat";
 import { FiSend } from "react-icons/fi";
 import './Contact.css';
-import { useEffect, useRef } from "react";
-import { useForm, ValidationError } from "@formspree/react";
+import { useRef, useState } from "react";
+import { db } from "../firebase";
+import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 
 const sectionVariants = {
   hidden: { opacity: 0, y: 50 },
@@ -17,15 +18,47 @@ const sectionVariants = {
 export default function Contact() {
 
   const formRef = useRef(null);
-  const formId = import.meta.env.VITE_FORMSPREE_ID;
-  const [state, handleSubmit] = useForm(formId);
+  const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    if (state.succeeded) {
-      alert("Thank you! Your message has been sent successfully.");
-      formRef.current?.reset();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+
+    const formData = new FormData(e.target);
+    const data = {
+      name: formData.get("name"),
+      email: formData.get("email"),
+      message: formData.get("message"),
+    };
+
+    try {
+      // 1. Save to Firebase Firestore
+      await addDoc(collection(db, "contacts"), {
+        ...data,
+        createdAt: serverTimestamp(),
+      });
+
+      // 2. Send email via Vercel serverless function
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+
+      const result = await res.json();
+      if (!result.success) {
+        console.warn("Email sending failed, but message was saved.");
+      }
+
+      alert("Message sent successfully 🚀");
+      e.target.reset();
+    } catch (error) {
+      console.error("Error:", error);
+      alert("Something went wrong. Please try again.");
     }
-  }, [state.succeeded]);
+
+    setLoading(false);
+  };
 
   return (
     <section id="contact" className="section">
@@ -78,11 +111,18 @@ export default function Contact() {
               <label htmlFor="message">Your Message</label>
             </div>
 
-            <button type="submit" className="modern-btn">
-              <span className="btn-text-default">Send Message</span>
+            <button 
+              type="submit" 
+              className="modern-btn" 
+              disabled={loading}
+            >
+              <span className="btn-text-default">
+                {loading ? "Sending..." : "Send Message"}
+              </span>
+
               <span className="btn-text-hover">
-                <span>Submit Now</span>
-                <FiSend />
+                <span>{loading ? "Please Wait" : "Submit Now"}</span>
+                {!loading && <FiSend />}
               </span>
             </button>
           </form>
