@@ -11,7 +11,7 @@ Typing Animation
 ## 🚀 Overview
 A cutting-edge, production-ready personal portfolio website built with modern web technologies:
 
-React 18 • JavaScript • Vite • Tailwind CSS • Framer Motion • Custom Components • NodeJS • Express JS
+React 18 • JavaScript • Vite • Tailwind CSS • Framer Motion • Custom Components • Firebase Firestore • Vercel Serverless Functions
 
 ## Table of Contents
 - [Overview](#overview)
@@ -54,6 +54,14 @@ React 18 • JavaScript • Vite • Tailwind CSS • Framer Motion • Custom C
 | 🌊 Wave Text Animations | Character-level animations on section titles that replay on scroll |
 | 🎆 Gradient Hover Effects | Multi-color gradients on skill badges and buttons |
 
+### 🔌 Serverless & Backend
+
+| Feature | Description |
+|---------|-------------|
+| ☁️ Serverless Functions | Vercel serverless API for contact form email delivery (Nodemailer + Gmail SMTP) |
+| 🔥 Firebase Firestore | Contact form submissions stored in real-time cloud database |
+| 🚫 No Traditional Backend | Eliminates the need for a separate Express server in production |
+
 ### ♿ Accessibility & UX
 
 | Feature | Description |
@@ -90,19 +98,21 @@ A carefully curated selection of industry-standard tools for maximum performance
 | 📈 Data Viz | Recharts 2.15.4, React Day Picker 8.10.1 |
 | 🎠 Carousel | Embla Carousel 8.6.0 with custom controls |
 | 🔧 Utilities | clsx 2.1.1, class-variance-authority 0.7.1, tailwind-merge 2.6.0 |
-| 🛠️ Dev Tools | ESLint 9.32.0 |
+| � Backend-as-a-Service | Firebase 12.8.0 (Firestore for contact storage) |
+| ☁️ Serverless | Vercel Serverless Functions, Nodemailer 8.0.1 (Gmail SMTP) |
+| 🛠️ Dev Tools | ESLint 9.36.0 |
 | 📦 Package Manager | npm with lock file versioning |
 
 ---
 
 
 ## 📂 Project Directory Structure
-Well-organized, scalable full-stack architecture with React frontend and Node.js backend:
+Well-organized, scalable architecture with React frontend, Vercel serverless API, and Firebase Firestore:
 
 ```
 Portfolio/
 │
-├── 📁 backend/                         # Node.js Express backend
+├── 📁 backend/                         # Node.js Express backend (legacy / local dev)
 │   ├── .env                            # Environment variables
 │   ├── .gitignore                      # Git ignore rules
 │   ├── db.js                           # Lightweight data access / mock DB
@@ -112,6 +122,8 @@ Portfolio/
 │   └── server.js                       # Express server
 │
 ├── 📁 frontend/                        # React + Vite frontend
+│   ├── .env                            # Environment variables (Firebase, Gmail SMTP)
+│   ├── .npmrc                          # npm configuration
 │   ├── eslint.config.js                # ESLint configuration
 │   ├── index.html                      # HTML entry point
 │   ├── package.json                    # Frontend dependencies
@@ -119,14 +131,16 @@ Portfolio/
 │   ├── postcss.config.js               # PostCSS plugins
 │   ├── README.md                       # Frontend documentation
 │   ├── tailwind.config.js              # Tailwind CSS configuration
-│   ├── vercel.json                     # Vercel deployment config
+│   ├── vercel.json                     # Vercel deployment & serverless routing config
 │   ├── vite.config.js                  # Vite build configuration
+│   ├── api/                            # ☁️ Vercel Serverless Functions
+│   │   └── contact.js                  # Serverless contact form handler (Nodemailer + Gmail SMTP)
 │   ├── public/                         # Static assets
 │   │   └── logos/                      # Logo images
 │   └── src/                            # Source code
 │       ├── App.css                     # App-level styles
 │       ├── App.jsx                     # Root React component
-│       ├── firebase.js                 # Firebase configuration
+│       ├── firebase.js                 # 🔥 Firebase config & Firestore initialization
 │       ├── index.css                   # Global styles
 │       ├── main.jsx                    # React entry point
 │       ├── assets/                     # Asset files
@@ -146,7 +160,7 @@ Portfolio/
 │           ├── Background.css          # Background styles
 │           ├── Background.jsx          # Background component
 │           ├── Contact.css             # Contact styles
-│           ├── Contact.jsx             # Contact component
+│           ├── Contact.jsx             # Contact form (Firebase + serverless email)
 │           ├── Footer.css              # Footer styles
 │           ├── Footer.jsx              # Footer component
 │           ├── HackerLoginPage.css     # Login page styles
@@ -167,7 +181,7 @@ Portfolio/
 │           └── UploadForm.jsx          # Upload form component
 │
 ├── 📄 README.md                        # This file
-├── 📄 render.yaml                       # Render deployment config
+├── 📄 render.yaml                       # Render deployment config (backend)
 └── 📁 node_modules/                    # Installed dependencies
 
 ```
@@ -186,7 +200,7 @@ Portfolio/
 | 🔧 Skills.jsx | Skill matrix | Categorized skills with filtering |
 | 🏆 Achivements.jsx | Certification hub | Achievements with filtering and display |
 | 📊 Analytics.jsx | Statistics section | Animated counters for metrics |
-| 📧 Contact.jsx | Get in touch | Contact form and info cards |
+| 📧 Contact.jsx | Get in touch | Contact form with Firebase Firestore storage & serverless email |
 ### 🎭 Supporting Components
 
 | 🎭 Component | 📋 Purpose |
@@ -218,35 +232,50 @@ git clone https://github.com/rka2005/Portfolio.git
 cd Portfolio
 ```
 
-📦 Install backend dependencies
-
-```bash
-cd backend
-npm install
-```
-
 📦 Install frontend dependencies
 
 ```bash
-cd ../frontend
+cd frontend
 npm install
 ```
 
-🔥 Start development servers
+🔥 Configure environment variables
 
-**Terminal 1: Backend**
-```bash
-cd backend
-node server.js
+Create `frontend/.env` with your Firebase and Gmail SMTP credentials:
+
+```env
+# Firebase Configuration
+VITE_FIREBASE_API_KEY=your_api_key
+VITE_FIREBASE_AUTH_DOMAIN=your_project.firebaseapp.com
+VITE_FIREBASE_PROJECT_ID=your_project_id
+VITE_FIREBASE_STORAGE_BUCKET=your_project.appspot.com
+VITE_FIREBASE_MESSAGING_SENDER_ID=your_sender_id
+VITE_FIREBASE_APP_ID=your_app_id
+VITE_FIREBASE_MEASUREMENT_ID=your_measurement_id
+
+# Gmail SMTP (for serverless contact form email)
+GMAIL_USER=your_email@gmail.com
+GMAIL_APP_PASSWORD=your_app_password
 ```
 
-**Terminal 2: Frontend**
+🚀 Start development server
+
 ```bash
 cd frontend
 npm run dev
 ```
 
 Open browser to http://localhost:5173 ✨
+
+> **Note:** The contact form uses Vercel Serverless Functions (`frontend/api/contact.js`) for sending emails. In local development, email sending via the serverless endpoint is only available when running through `vercel dev`. Firebase Firestore storage works in all environments.
+
+📦 (Optional) Install backend dependencies for legacy local development
+
+```bash
+cd backend
+npm install
+node server.js
+```
 
 
 ## 💻 NPM Scripts
@@ -258,9 +287,14 @@ npm run build        # Create optimized production build
 npm run preview      # Preview production build locally
 ```
 
-**Backend (from backend/ directory)**
+**Serverless Development (from frontend/ directory)**
 ```bash
-node server.js       # Start the Express server
+npx vercel dev       # Start Vercel dev server with serverless functions
+```
+
+**Backend — Legacy (from backend/ directory)**
+```bash
+node server.js       # Start the Express server (optional, for local dev)
 ```
 ## 🚀 Build & Deployment
 ### Frontend Build
@@ -273,9 +307,12 @@ Output: frontend/dist/ folder ready for deployment
 ---
 
 
-### Backend Deployment
-Deploy backend to services like Render, Railway, or Heroku
-Use the render.yaml for Render deployment
+### Serverless Backend (Vercel)
+The contact form backend runs as a Vercel Serverless Function (`frontend/api/contact.js`). It is automatically deployed alongside the frontend when you deploy to Vercel — no separate backend deployment is needed for the contact form.
+
+### Legacy Backend Deployment (Optional)
+If you still use the Express backend for other features, deploy it to services like Render, Railway, or Heroku.
+Use the render.yaml for Render deployment.
 
 ### Deploy to Vercel (Frontend)
 Push code to GitHub
@@ -304,7 +341,9 @@ Edit frontend/src/components/Skills.jsx to add your skills.
 Edit frontend/src/index.css for color schemes.
 
 ### 4️⃣ Setup Contact Form
-Add environment variables in backend/.env for contact API.
+- Add Firebase config variables (`VITE_FIREBASE_*`) in `frontend/.env` for Firestore storage.
+- Add `GMAIL_USER` and `GMAIL_APP_PASSWORD` in Vercel environment variables (or `frontend/.env` for local dev) for serverless email delivery.
+- The serverless function lives at `frontend/api/contact.js` and is auto-routed by `vercel.json`.
 
 ### 5️⃣ Update Social Links
 Edit frontend/src/components/Footer.jsx and other components for links.
@@ -387,23 +426,38 @@ Ensure all dependencies are installed
 Verify Framer Motion is properly imported
 Check CSS transitions in component styles
 
-**Backend Connection Issues**
-Ensure backend server is running on correct port
-Check CORS settings in backend/server.js
+**Backend / Serverless Issues**
+Ensure environment variables (`GMAIL_USER`, `GMAIL_APP_PASSWORD`) are set in Vercel project settings.
+For local serverless testing, run `npx vercel dev` from the `frontend/` directory.
+Check CORS headers in `frontend/api/contact.js` if cross-origin requests fail.
 
 ## 📝 Environment Variables
-Create backend/.env for backend configuration:
 
+### Frontend (`frontend/.env`)
+```env
+# Firebase Configuration
+VITE_FIREBASE_API_KEY=your_api_key
+VITE_FIREBASE_AUTH_DOMAIN=your_project.firebaseapp.com
+VITE_FIREBASE_PROJECT_ID=your_project_id
+VITE_FIREBASE_STORAGE_BUCKET=your_project.appspot.com
+VITE_FIREBASE_MESSAGING_SENDER_ID=your_sender_id
+VITE_FIREBASE_APP_ID=your_app_id
+VITE_FIREBASE_MEASUREMENT_ID=your_measurement_id
+
+# Gmail SMTP (used by Vercel serverless function)
+GMAIL_USER=your_email@gmail.com
+GMAIL_APP_PASSWORD=your_app_password
+```
+
+> **Tip:** On Vercel, add the `GMAIL_USER` and `GMAIL_APP_PASSWORD` variables in **Project Settings → Environment Variables** so the serverless function can access them in production.
+
+### Backend — Legacy (`backend/.env`, optional)
+```env
 # Server port
 PORT=5000
 
-# Database or other configs
 # Add your environment variables here
-
-For frontend, if needed, create frontend/.env.local:
-
-# API endpoints
-VITE_API_URL=http://localhost:5000
+```
 
 ## 📬 Contact Information
 👨‍💻 Rohit Adak
@@ -424,6 +478,9 @@ Strategic Credits:
 🎨 Shadcn/UI & Radix UI for accessible components
 🎬 Framer Motion for smooth animations
 ✨ JsParticles for particle effects
+🔥 Firebase for real-time Firestore database
+☁️ Vercel for serverless functions and hosting
+📧 Nodemailer for serverless email delivery
 ⭐ All contributors and open-source libraries
 ⭐ If you found this portfolio helpful, please give it a star! ⭐
 
@@ -441,8 +498,10 @@ Deploy with confidence • Code with passion • Build with pride
    - **Build Command**: `npm run build`
    - **Output Directory**: `dist`
    - **Install Command**: `npm install`
-4. **Environment Variables** (if needed):
-   - Add any required env vars like `VITE_API_URL`
+4. **Environment Variables**:
+   - `VITE_FIREBASE_API_KEY`, `VITE_FIREBASE_AUTH_DOMAIN`, `VITE_FIREBASE_PROJECT_ID`, `VITE_FIREBASE_STORAGE_BUCKET`, `VITE_FIREBASE_MESSAGING_SENDER_ID`, `VITE_FIREBASE_APP_ID`, `VITE_FIREBASE_MEASUREMENT_ID` — Firebase config
+   - `GMAIL_USER` — Gmail address for serverless contact form
+   - `GMAIL_APP_PASSWORD` — Gmail app password for SMTP
 5. **Deploy**: Click "Deploy" and wait for the build to complete.
 6. **Custom Domain** (optional): Add your custom domain in the project settings.
 
@@ -462,7 +521,7 @@ Deploy with confidence • Code with passion • Build with pride
 7. **Update Frontend**: Update `VITE_API_URL` in frontend with the Render backend URL.
 
 ### Full-Stack Deployment Notes
-- **Frontend on Vercel**: Handles static site hosting with fast global CDN.
-- **Backend on Render**: Provides free tier for Node.js apps with automatic scaling.
-- **Database**: Currently uses a lightweight file-based DB (db.js). For production, consider MongoDB Atlas or other databases.
-- **Domain**: Point your domain to Vercel for frontend, and configure CORS in backend for cross-origin requests.
+- **Frontend + Serverless API on Vercel**: Handles static site hosting with fast global CDN and serverless functions for the contact form (`/api/contact`).
+- **Firebase Firestore**: Contact form submissions are stored in Firebase Firestore in real-time — no additional database setup needed.
+- **Backend on Render (Optional)**: The legacy Express backend can still be deployed if needed for other features.
+- **Domain**: Point your domain to Vercel for frontend, serverless API is automatically available at `/api/*`.
