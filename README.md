@@ -239,25 +239,6 @@ cd frontend
 npm install
 ```
 
-🔥 Configure environment variables
-
-Create `frontend/.env` with your Firebase and Gmail SMTP credentials:
-
-```env
-# Firebase Configuration
-VITE_FIREBASE_API_KEY=your_api_key
-VITE_FIREBASE_AUTH_DOMAIN=your_project.firebaseapp.com
-VITE_FIREBASE_PROJECT_ID=your_project_id
-VITE_FIREBASE_STORAGE_BUCKET=your_project.appspot.com
-VITE_FIREBASE_MESSAGING_SENDER_ID=your_sender_id
-VITE_FIREBASE_APP_ID=your_app_id
-VITE_FIREBASE_MEASUREMENT_ID=your_measurement_id
-
-# Gmail SMTP (for serverless contact form email)
-GMAIL_USER=your_email@gmail.com
-GMAIL_APP_PASSWORD=your_app_password
-```
-
 🚀 Start development server
 
 ```bash
@@ -456,7 +437,13 @@ GMAIL_APP_PASSWORD=your_app_password
 # Server port
 PORT=5000
 
-# Add your environment variables here
+# MongoDB connect
+MONGO_URI=your_mongodb_URI
+
+# Cloudinary Setup
+CLOUDINARY_CLOUD_NAME=your_cloudinary_NAME
+CLOUDINARY_API_KEY=your_cloudinary_API_KEY
+CLOUDINARY_API_SECRET=your_API_SECRET
 ```
 
 ## 📬 Contact Information
