@@ -111,10 +111,10 @@ const HackerLoginPage = ({ onClose, onSuccess }) => {
       setFailedAttempts(newFailedAttempts);
 
       if (newFailedAttempts >= 3) {
-        // Lock account for 10 minutes
+        // Lock account for 5 minutes
         const lockUntil = Date.now() + (2 * 60 * 1000);
         setLockoutUntil(lockUntil);
-        setRemainingTime(5 * 60); // 5 minutes in seconds
+        setRemainingTime(2 * 60); // 5 minutes in seconds
         setTerminalTitle('!! ACCOUNT LOCKED !!');
         showToast("TOO MANY FAILED ATTEMPTS. ACCOUNT LOCKED FOR 5 MINUTES.");
         // Clear form fields after user clicks OK
@@ -278,7 +278,7 @@ const HackerLoginPage = ({ onClose, onSuccess }) => {
                   </>
                 )}
               </div>
-              <form className="hl-terminal-form">
+              <form className="hl-terminal-form" onSubmit={(e) => { e.preventDefault(); handleLoginWithOTP(); }}>
                 <div className="hl-input-group hl-boot-item delay-1">
                   <label htmlFor="email">email_addr {'>'}</label>
                   <input 
@@ -320,8 +320,7 @@ const HackerLoginPage = ({ onClose, onSuccess }) => {
                   {isLockedOut && <span style={{ color: '#ff3333', fontSize: '0.8em' }}>🔒 LOCKED</span>}
                 </div>
                 <button 
-                  type="button" 
-                  onClick={handleLoginWithOTP} 
+                  type="submit" 
                   className="hl-cyber-button hl-boot-item delay-4"
                   disabled={isLockedOut}
                   style={isLockedOut ? { opacity: 0.5, cursor: 'not-allowed', borderColor: '#ff3333' } : {}}
@@ -343,7 +342,7 @@ const HackerLoginPage = ({ onClose, onSuccess }) => {
               </div>
               <div className="otp-display-area">
                 <p className="instruction">{'>'}{'>'} PACKET SENT TO EMAIL_NODE</p>
-                <form className="hl-terminal-form">
+                <form className="hl-terminal-form" onSubmit={(e) => { e.preventDefault(); handleVerifyOTP(); }}>
                   <div className="hl-input-group hl-boot-item delay-1">
                     <label htmlFor="otp">auth_token {'>'}</label>
                     <input type="text" id="otp" value={formData.otp} onChange={handleInputChange} maxLength="6" autoComplete="off" placeholder="_ _ _ _ _ _" style={{ letterSpacing: '10px', textTransform: 'uppercase' }} />
@@ -351,7 +350,7 @@ const HackerLoginPage = ({ onClose, onSuccess }) => {
                   <div className="otp-timer hl-boot-item delay-2" style={{ color: '#ff3333', marginBottom: '20px', fontSize: '0.8rem' }}>
                     <span>TOKEN_EXPIRY: </span><span>120s</span>
                   </div>
-                  <button type="button" onClick={handleVerifyOTP} style={getButtonStyle()} className="hl-cyber-button hl-boot-item delay-3">
+                  <button type="submit" style={getButtonStyle()} className="hl-cyber-button hl-boot-item delay-3">
                     <span className="btn-text">{verifyBtnText}</span>
                   </button>
                 </form>
