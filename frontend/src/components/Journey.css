@@ -1,0 +1,292 @@
+/* --- Base Section --- */
+.journey-section {
+  position: relative;
+  padding: 120px 20px;
+  background-color: transparent; 
+  overflow: hidden;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+.journey-bg-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80vw;
+  height: 80vh;
+  background: radial-gradient(circle, rgba(0, 255, 157, 0.03) 0%, rgba(0, 229, 255, 0.02) 40%, transparent 70%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* --- Headers --- */
+.journey-header {
+  text-align: center;
+  margin-bottom: 100px;
+  position: relative;
+  z-index: 2;
+}
+
+.journey-title {
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: 800;
+  background: linear-gradient(135deg, #ffffff 0%, #94a3b8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 20px;
+  letter-spacing: -0.03em;
+}
+
+.journey-subtitle {
+  color: #94a3b8;
+  font-size: 1.15rem;
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.7;
+  font-weight: 400;
+}
+
+/* --- Timeline Container --- */
+.timeline-container {
+  position: relative;
+  max-width: 1000px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  z-index: 2;
+}
+
+.svg-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.svg-container svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+/* --- Timeline Row --- */
+.timeline-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  position: relative;
+  padding: 50px 0;
+  min-height: 300px;
+}
+
+/* Card Wrappers */
+.timeline-card-wrapper {
+  z-index: 2;
+  position: relative;
+  cursor: pointer;
+  width: 100%;
+}
+
+.timeline-row.left .timeline-card-wrapper {
+  grid-column: 1;
+  justify-self: end;
+  margin-right: 70px;
+  max-width: 420px;
+}
+
+.timeline-row.right .timeline-card-wrapper {
+  grid-column: 2;
+  justify-self: start;
+  margin-left: 70px;
+  max-width: 420px;
+}
+
+/* --- Dynamic Dots --- */
+.timeline-apex-dot {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 44px;
+  height: 44px;
+  background-color: #0a0f1c;
+  border: 3px solid;
+  border-radius: 50%;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.timeline-row:hover .timeline-apex-dot {
+  transform: translate(-50%, -50%) scale(1.15);
+}
+
+.dot-pulse {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  opacity: 0.4;
+  z-index: 1;
+}
+
+.dot-icon {
+  color: #fff;
+  z-index: 2;
+  display: flex;
+}
+
+/* --- Premium Glassmorphic Card --- */
+.timeline-content {
+  padding: 35px;
+  background: linear-gradient(145deg, rgba(15, 23, 42, 0.8) 0%, rgba(15, 23, 42, 0.4) 100%);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-radius: 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  position: relative;
+  transition: all 0.4s ease;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3), inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+}
+
+.timeline-content:hover {
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4), inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+}
+
+.journey-date {
+  display: inline-block;
+  padding: 6px 16px;
+  border-radius: 30px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-bottom: 20px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.journey-role {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #f8fafc;
+  margin: 0 0 8px 0;
+  line-height: 1.3;
+  letter-spacing: -0.02em;
+}
+
+.journey-company {
+  font-size: 1.05rem;
+  color: #cbd5e1;
+  margin: 0 0 20px 0;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.journey-desc {
+  font-size: 1rem;
+  color: #94a3b8;
+  line-height: 1.7;
+  margin: 0;
+  font-weight: 400;
+}
+
+
+/* =========================================
+   RESPONSIVE MEDIA QUERIES
+   ========================================= */
+
+/* Tablets & Small Laptops (1024px) */
+@media screen and (max-width: 1024px) {
+  .journey-section {
+    padding: 100px 20px;
+  }
+  
+  /* Give cards more room to breathe by reducing gaps */
+  .timeline-row.left .timeline-card-wrapper {
+    margin-right: 40px;
+  }
+  
+  .timeline-row.right .timeline-card-wrapper {
+    margin-left: 40px;
+  }
+  
+  .timeline-content {
+    padding: 25px;
+  }
+  
+  .journey-role {
+    font-size: 1.35rem;
+  }
+}
+
+/* Mobile & Small Tablets (768px) */
+@media screen and (max-width: 768px) {
+  .journey-section {
+    padding: 80px 15px;
+  }
+
+  .journey-header {
+    margin-bottom: 60px;
+  }
+  
+  .timeline-row {
+    grid-template-columns: 1fr;
+    padding: 40px 0;
+    min-height: 240px;
+  }
+  
+  /* Force all cards to sit on the right side of the screen */
+  .timeline-row.left .timeline-card-wrapper,
+  .timeline-row.right .timeline-card-wrapper {
+    grid-column: 1;
+    justify-self: end;
+    margin: 0;
+    width: 72%; /* Leaves 28% space on the left for the snake line */
+    margin-right: 5%;
+    max-width: none;
+  }
+
+  /* Reduce dot size so it doesn't overlap cards */
+  .timeline-apex-dot {
+    width: 36px;
+    height: 36px;
+  }
+}
+
+/* Small Phones (480px) */
+@media screen and (max-width: 480px) {
+  .timeline-row.left .timeline-card-wrapper,
+  .timeline-row.right .timeline-card-wrapper {
+    width: 75%; /* Expand card slightly on tiny screens */
+    margin-right: 3%;
+  }
+
+  .timeline-content {
+    padding: 20px;
+  }
+
+  .journey-role {
+    font-size: 1.25rem;
+  }
+
+  .journey-desc {
+    font-size: 0.9rem;
+    line-height: 1.6;
+  }
+  
+  .journey-date {
+    font-size: 0.75rem;
+    padding: 5px 12px;
+  }
+
+  /* Scale down the icons in the dot */
+  .dot-icon svg {
+    width: 16px;
+    height: 16px;
+  }
+}
