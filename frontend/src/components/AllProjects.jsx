@@ -13,6 +13,7 @@ import project5Image from "../assets/projects/crash.jpeg";
 import project6Image from "../assets/projects/ezstudy.jpeg";
 import project7Image from "../assets/projects/heart3.png";
 import project8Image from "../assets/projects/matchmedia.jpeg";
+import project9Image from "../assets/projects/aria.jpeg";
 import './AllProjects.css';
 
 const projectsData = [
@@ -79,7 +80,22 @@ const projectsData = [
     tech: ["React", "Java Script", "Python", "Fast API", "Web Sockets"],
     github: "https://github.com/rka2005/Sync-Song",
     live: "https://matchmedia.vercel.app/",
-  }
+  },
+  {
+    title: "Aria Studio — Cloud Music Player",
+    description: "Aria Studio is a full-stack music streaming web application that allows users to stream and play audio files directly from Google Drive folders. It features continuous playback, playlist management, and a modern UI for a seamless listening experience without downloading files.",
+    imageUrl: project9Image,
+    tech: ["React", "Node.JS", "Express.JS", "Google Drive API", "OAuth 2.0", "Tailwind CSS"],
+    features: [
+      "Stream music directly from Google Drive",
+      "Continuous auto-play playback",
+      "Pagination for large playlists (1000+ songs)",
+      "Google OAuth authentication",
+      "Modern responsive UI with Tailwind CSS"
+    ],
+    github: "https://github.com/rka2005/Drive-Music",
+    live: null,
+  },
 ];
 
 const containerVariants = {
