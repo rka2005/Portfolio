@@ -87,7 +87,7 @@ const projectsData = [
     imageUrl: project9Image,
     tech: ["React", "Node.JS", "Express.JS", "Google Drive API", "OAuth 2.0", "Tailwind CSS"],
     github: "https://github.com/rka2005/Drive-Music",
-    live: null,
+    live: "https://ariastu.vercel.app/",
   },
 ];
 
