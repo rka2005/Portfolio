@@ -82,8 +82,8 @@ const projectsData = [
     live: "https://matchmedia.vercel.app/",
   },
   {
-    title: "Aria Studio — Cloud Music Player",
-    description: "Aria Studio is a full-stack music streaming web application that allows users to stream and play audio files directly from Google Drive folders. It features continuous playback, playlist management, and a modern UI for a seamless listening experience without downloading files.",
+    title: "Aria Studio",
+    description: "Aria Studio is a Cloud Music streaming web application that allows to stream and play audio files directly from Google Drive folders. It features continuous playback, playlist management, and a modern UI for a seamless listening experience without downloading files.",
     imageUrl: project9Image,
     tech: ["React", "Node.JS", "Express.JS", "Google Drive API", "OAuth 2.0", "Tailwind CSS"],
     github: "https://github.com/rka2005/Drive-Music",
