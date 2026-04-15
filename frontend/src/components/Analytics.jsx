@@ -6,7 +6,7 @@ const stats = [
   {
     id: 1,
     label: 'Projects',
-    value: 8,
+    value: 10,
     suffix: '+',
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="stat-icon">
