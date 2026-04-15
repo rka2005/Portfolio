@@ -16,12 +16,22 @@ const cache = new Map(); // key -> { ts, data }
 const CACHE_TTL_MS = 30 * 1000; // 30 seconds
 
 // --- MIDDLEWARE ---
+const allowedOrigins = process.env.CORS_ORIGINS
+  ? process.env.CORS_ORIGINS.split(",").map(origin => origin.trim())
+  : [];
+
 app.use(
   cors({
-    origin: [
-      "http://localhost:5173",
-      "https://rohitadak.vercel.app"
-    ],
+    origin: function (origin, callback) {
+      // allow requests with no origin (like mobile apps / curl)
+      if (!origin) return callback(null, true);
+
+      if (allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      } else {
+        return callback(new Error("Not allowed by CORS"));
+      }
+    },
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   })
