@@ -14,6 +14,7 @@ import project6Image from "../assets/projects/ezstudy.jpeg";
 import project7Image from "../assets/projects/heart3.png";
 import project8Image from "../assets/projects/matchmedia.jpeg";
 import project9Image from "../assets/projects/aria.jpeg";
+import project10Image from "../assets/projects/nexus.png";
 import './AllProjects.css';
 
 const projectsData = [
@@ -88,6 +89,14 @@ const projectsData = [
     tech: ["React", "Node.JS", "Express.JS", "Google Drive API", "OAuth 2.0", "Tailwind CSS"],
     github: "https://github.com/rka2005/Drive-Music",
     live: "https://ariastu.vercel.app/",
+  },
+  {
+    title: "Nexus Downloader",
+    description: "Nexus Downloader is a powerful tool for downloading media files from various sources with support for multiple formats and high-speed transfers.",
+    imageUrl: project10Image,
+    tech: ["React", "JavaScript", "Python", "Fast API", "Tailwind CSS"],
+    github: "https://github.com/rka2005/Nexus-Downloader",
+    live: null,
   },
 ];
 
