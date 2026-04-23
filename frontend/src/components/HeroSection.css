@@ -79,3 +79,22 @@
     opacity: 0;
   }
 }
+
+/* --- Responsive --- */
+@media (max-width: 768px) {
+  .explore-more {
+    margin-top: 40px;
+    gap: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .explore-more {
+    margin-top: 30px;
+  }
+
+  .explore-more span {
+    font-size: 9px;
+    letter-spacing: 3px;
+  }
+}

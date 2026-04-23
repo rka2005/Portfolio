@@ -2,7 +2,8 @@
 
 body {
   margin: 0;
-  overflow: auto;
+  overflow-x: hidden;
+  overflow-y: auto;
   font-family: 'Poppins', sans-serif;
   background: black; 
   color: #EAEAEA;
@@ -23,7 +24,7 @@ body {
 
 .main-title {
   font-family: 'Montserrat', sans-serif;
-  font-size: 3.5rem;
+  font-size: clamp(2rem, 6vw, 3.5rem);
   font-weight: 700;
   color: #ffffff;
   letter-spacing: 1px;
@@ -40,7 +41,7 @@ body {
 }
 
 .subtitle {
-  font-size: 1.4rem;
+  font-size: clamp(1rem, 3vw, 1.4rem);
   font-weight: 500;
   color: #d0f0ff;
   margin-top: 1rem;
@@ -212,7 +213,7 @@ body {
 
 .skills-title {
   margin-bottom: 40px;
-  margin-top: -15rem;
+  margin-top: clamp(-10rem, -12vw, -15rem);
 }
 
 /* New About Section Styles */
@@ -229,7 +230,7 @@ body {
   max-width: 960px;
   margin: 0 auto;
   padding: 0 20px;
-  margin-top: -10rem;
+  margin-top: clamp(-5rem, -8vw, -10rem);
 }
 
 .about-image {
@@ -553,7 +554,7 @@ html {
 #projects.section {
   padding-bottom: 0;
   margin-bottom: -80px;
-  margin-top: -20rem;
+  margin-top: clamp(-10rem, -16vw, -20rem);
 }
 
 /* View More Card Styles */
@@ -674,6 +675,11 @@ html {
     margin-bottom: -4rem;
   }
 
+  .main-title {
+    font-size: 1.75rem;
+    margin-top: 6rem;
+  }
+
   .about-content {
     margin-top: -10px;
     text-align: center;
@@ -722,11 +728,12 @@ html {
   }
 
   .main-title {
-    font-size: 2.8rem;
+    font-size: clamp(1.8rem, 7vw, 2.8rem);
+    margin-top: 6rem;
   }
 
   .subtitle {
-    font-size: 1.2rem;
+    font-size: clamp(0.95rem, 3vw, 1.2rem);
   }
 
   /* --- Titles --- */
@@ -768,7 +775,7 @@ html {
 
   /* --- Projects Section --- */
   #projects.section {
-    margin-top: -32rem;
+    margin-top: -10rem;
     margin-bottom: 0;
     padding-bottom: 80px;
   }
@@ -814,7 +821,7 @@ html {
     justify-content: center;
   }
 
-  s .project-tech-stack {
+  .project-tech-stack {
     justify-content: center;
   }
 
@@ -967,6 +974,16 @@ html {
 
 /* --- RESPONSIVE LOGIC --- */
 
+@media (max-width: 1024px) {
+  .nav-links {
+    gap: 18px;
+  }
+
+  .nav-links a {
+    font-size: 0.85rem;
+  }
+}
+
 @media (max-width: 768px) {
 
   /* 1. Hide the desktop links */
@@ -983,5 +1000,34 @@ html {
   .navbar {
     justify-content: space-between;
     padding: 10px 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-container {
+    padding: 80px 15px 60px;
+  }
+
+  .main-title {
+    font-size: 1.8rem;
+    margin-top: 5rem;
+  }
+
+  .tagline {
+    font-size: 0.9rem;
+    padding: 0 10px;
+  }
+
+  .modern-btn {
+    padding: 12px 30px;
+    font-size: 0.9rem;
+  }
+
+  .section {
+    padding: 80px 15px 60px;
+  }
+
+  .section h2, .section .scroll-float {
+    font-size: 1.8rem;
   }
 }

@@ -152,9 +152,9 @@
 @media (max-width: 900px) {
 
   .contact-grid {
-    grid-template-columns: 0.9fr;
+    grid-template-columns: 1fr;
     gap: 40px;
-    width: 100%;
+    width: 90%;
   }
 
   .contact-form {
@@ -164,5 +164,41 @@
 
   #contact.section {
     padding-top: 50px;
+  }
+
+  .contact-subtitle {
+    font-size: 1rem;
+    padding: 0 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .contact-grid {
+    width: 95%;
+  }
+
+  .contact-form {
+    padding: 25px 15px;
+  }
+
+  .form-group input,
+  .form-group textarea {
+    font-size: 0.9rem;
+    padding: 12px 14px;
+  }
+
+  .form-group label {
+    font-size: 0.9rem;
+    left: 14px;
+  }
+
+  .contact-subtitle {
+    font-size: 0.9rem;
+    margin-bottom: 30px;
+  }
+
+  .contact-form .modern-btn {
+    padding: 12px 30px;
+    font-size: 0.9rem;
   }
 }

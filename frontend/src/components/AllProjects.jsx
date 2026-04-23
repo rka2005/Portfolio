@@ -287,62 +287,135 @@ function ProjectCard({ project, isFlipped, onToggle, onGitHubClick }) {
 }
 
 function RepositoryModal({ project, onClose }) {
+  const overlayVariants = {
+    hidden: { opacity: 0 },
+    visible: { opacity: 1 },
+    exit: { opacity: 0 },
+  };
+
+  const modalVariants = {
+    hidden: { opacity: 0, scale: 0.75, y: 30 },
+    visible: {
+      opacity: 1,
+      scale: 1,
+      y: 0,
+      transition: {
+        type: "spring",
+        stiffness: 380,
+        damping: 28,
+        mass: 0.8,
+        staggerChildren: 0.08,
+        delayChildren: 0.15,
+      },
+    },
+    exit: {
+      opacity: 0,
+      scale: 0.85,
+      y: 20,
+      transition: { duration: 0.22, ease: "easeIn" },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 16 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { type: "spring", stiffness: 400, damping: 26 },
+    },
+  };
+
   return (
-    <>
-      {/* Backdrop */}
-      <motion.div
-        className="repo-modal-backdrop"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        onClick={onClose}
-      />
-      
-      {/* Modal */}
+    <motion.div
+      className="repo-modal-overlay"
+      variants={overlayVariants}
+      initial="hidden"
+      animate="visible"
+      exit="exit"
+      transition={{ duration: 0.25 }}
+      onClick={onClose}
+    >
       <motion.div
         className="repo-modal"
-        initial={{ opacity: 0, scale: 0.9 }}
-        animate={{ opacity: 1, scale: 1 }}
-        exit={{ opacity: 0, scale: 0.9 }}
-        transition={{ type: "spring", stiffness: 300, damping: 30 }}
+        variants={modalVariants}
+        initial="hidden"
+        animate="visible"
+        exit="exit"
+        onClick={(e) => e.stopPropagation()}
       >
-        <div className="repo-modal-content">
-          <h2>Choose Repository</h2>
-          <p>Select which repository you'd like to view:</p>
-          
-          <div className="repo-options">
-            <a
-              href={project.github}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="repo-option frontend"
-            >
+        {/* Decorative glow orbs */}
+        <div className="repo-modal-orb repo-modal-orb--top" />
+        <div className="repo-modal-orb repo-modal-orb--bottom" />
+
+        {/* Close X button */}
+        <motion.button
+          className="repo-modal-x"
+          onClick={onClose}
+          whileHover={{ rotate: 90, scale: 1.15 }}
+          whileTap={{ scale: 0.9 }}
+          transition={{ type: "spring", stiffness: 400, damping: 18 }}
+          aria-label="Close"
+        >
+          ✕
+        </motion.button>
+
+        <motion.h2 variants={itemVariants} className="repo-modal-title">
+          Choose Repository
+        </motion.h2>
+        <motion.p variants={itemVariants} className="repo-modal-subtitle">
+          Select which repository you'd like to view:
+        </motion.p>
+
+        <div className="repo-options">
+          <motion.a
+            href={project.github}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="repo-option"
+            variants={itemVariants}
+            whileHover={{ scale: 1.03, x: 6 }}
+            whileTap={{ scale: 0.97 }}
+          >
+            <span className="repo-option-icon-ring">
               <SiGithub className="repo-icon" />
-              <div className="repo-option-text">
-                <h3>Frontend</h3>
-                <p>React & UI Components</p>
-              </div>
-            </a>
-            
-            <a
-              href={project.githubBackend}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="repo-option backend"
-            >
+            </span>
+            <div className="repo-option-text">
+              <h3>Frontend</h3>
+              <p>React &amp; UI Components</p>
+            </div>
+            <span className="repo-option-arrow">→</span>
+          </motion.a>
+
+          <motion.a
+            href={project.githubBackend}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="repo-option"
+            variants={itemVariants}
+            whileHover={{ scale: 1.03, x: 6 }}
+            whileTap={{ scale: 0.97 }}
+          >
+            <span className="repo-option-icon-ring">
               <SiGithub className="repo-icon" />
-              <div className="repo-option-text">
-                <h3>Backend</h3>
-                <p>Server & API Logic</p>
-              </div>
-            </a>
-          </div>
-          
-          <button onClick={onClose} className="repo-modal-close">
-            Close
-          </button>
+            </span>
+            <div className="repo-option-text">
+              <h3>Backend</h3>
+              <p>Server &amp; API Logic</p>
+            </div>
+            <span className="repo-option-arrow">→</span>
+          </motion.a>
         </div>
+
+        <motion.button
+          onClick={onClose}
+          className="repo-modal-close"
+          variants={itemVariants}
+          whileHover={{ scale: 1.025 }}
+          whileTap={{ scale: 0.97 }}
+        >
+          Close
+        </motion.button>
       </motion.div>
-    </>
+    </motion.div>
   );
 }
