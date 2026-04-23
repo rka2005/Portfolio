@@ -2,7 +2,6 @@
   min-height: 100vh;
   padding: 0 20px;
   padding-bottom: 40px;
-  position: relative;
   overflow-x: hidden;
 }
 
@@ -375,5 +374,395 @@
 
   .project-card-wrapper .project-card-content h3 {
     font-size: 0.95rem;
+  }
+}
+
+/* Repository Modal Styles */
+.repo-modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 1000;
+}
+
+.repo-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1001;
+  width: 90%;
+  max-width: 520px;
+  max-height: 90vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.repo-modal-content {
+  background: linear-gradient(
+    135deg,
+    rgba(25, 10, 50, 0.95) 0%,
+    rgba(15, 25, 60, 0.95) 50%,
+    rgba(20, 15, 40, 0.95) 100%
+  );
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
+  border: 1.5px solid rgba(138, 43, 226, 0.4);
+  border-radius: 20px;
+  padding: 40px 35px;
+  box-shadow: 
+    0 25px 80px rgba(138, 43, 226, 0.25),
+    inset 0 1px 1px rgba(255, 255, 255, 0.1);
+  position: relative;
+  overflow: visible;
+  width: 100%;
+  max-height: calc(90vh - 20px);
+  overflow-y: auto;
+}
+
+.repo-modal-content::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -50%;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(138, 43, 226, 0.15) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.repo-modal-content::after {
+  content: '';
+  position: absolute;
+  bottom: -40%;
+  left: -40%;
+  width: 250px;
+  height: 250px;
+  background: radial-gradient(circle, rgba(0, 255, 191, 0.08) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.repo-modal-content h2 {
+  color: #e0e7ff;
+  font-size: 1.6rem;
+  margin-bottom: 8px;
+  text-align: center;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  position: relative;
+  z-index: 1;
+  letter-spacing: -0.5px;
+}
+
+.repo-modal-content p {
+  color: #b4c0e0;
+  text-align: center;
+  margin-bottom: 32px;
+  font-size: 0.95rem;
+  position: relative;
+  z-index: 1;
+  font-weight: 400;
+}
+
+.repo-options {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 24px;
+  position: relative;
+  z-index: 1;
+}
+
+.repo-option {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 18px 20px;
+  background: linear-gradient(
+    135deg,
+    rgba(138, 43, 226, 0.12),
+    rgba(75, 0, 130, 0.08)
+  );
+  border: 1.2px solid rgba(138, 43, 226, 0.35);
+  border-radius: 14px;
+  text-decoration: none;
+  color: inherit;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.repo-option::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(138, 43, 226, 0.2),
+    transparent
+  );
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.repo-option:hover {
+  background: linear-gradient(
+    135deg,
+    rgba(138, 43, 226, 0.25),
+    rgba(75, 0, 130, 0.15)
+  );
+  border-color: rgba(138, 43, 226, 0.65);
+  transform: translateX(8px) translateY(-2px);
+  box-shadow: 
+    0 12px 35px rgba(138, 43, 226, 0.2),
+    0 0 20px rgba(138, 43, 226, 0.1);
+}
+
+.repo-option:hover::before {
+  opacity: 1;
+}
+
+.repo-icon {
+  font-size: 2.2rem;
+  color: #a855f7;
+  flex-shrink: 0;
+  transition: all 0.3s ease;
+  filter: drop-shadow(0 0 8px rgba(168, 85, 247, 0.3));
+}
+
+.repo-option:hover .repo-icon {
+  color: #d8b4fe;
+  filter: drop-shadow(0 0 12px rgba(168, 85, 247, 0.6));
+  transform: scale(1.1);
+}
+
+.repo-option-text h3 {
+  color: #f5f3ff;
+  font-size: 1.15rem;
+  margin: 0 0 4px 0;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  position: relative;
+  z-index: 1;
+}
+
+.repo-option-text p {
+  color: #c0b4de;
+  font-size: 0.85rem;
+  margin: 0;
+  text-align: left;
+  position: relative;
+  z-index: 1;
+  font-weight: 400;
+}
+
+.repo-modal-close {
+  width: 100%;
+  padding: 13px 20px;
+  background: linear-gradient(
+    135deg,
+    rgba(168, 85, 247, 0.15),
+    rgba(138, 43, 226, 0.1)
+  );
+  border: 1.2px solid rgba(168, 85, 247, 0.35);
+  color: #d8b4fe;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: 'Poppins', sans-serif;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  z-index: 1;
+  margin-top: 12px;
+  flex-shrink: 0;
+}
+
+.repo-modal-close:hover {
+  background: linear-gradient(
+    135deg,
+    rgba(168, 85, 247, 0.25),
+    rgba(138, 43, 226, 0.2)
+  );
+  border-color: rgba(168, 85, 247, 0.65);
+  color: #f5f3ff;
+  box-shadow: 0 8px 25px rgba(168, 85, 247, 0.15);
+  transform: translateY(-2px);
+}
+
+/* Scrollbar styling for modal */
+.repo-modal-content::-webkit-scrollbar {
+  width: 8px;
+}
+
+.repo-modal-content::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.repo-modal-content::-webkit-scrollbar-thumb {
+  background: rgba(168, 85, 247, 0.4);
+  border-radius: 4px;
+  transition: background 0.3s ease;
+}
+
+.repo-modal-content::-webkit-scrollbar-thumb:hover {
+  background: rgba(168, 85, 247, 0.7);
+}
+
+/* Mobile responsiveness for modal */
+@media (max-width: 768px) {
+  .repo-modal {
+    width: 92%;
+    max-width: 90vw;
+  }
+
+  .repo-modal-content {
+    padding: 32px 28px;
+    max-height: calc(90vh - 40px);
+  }
+
+  .repo-modal-content h2 {
+    font-size: 1.4rem;
+    margin-bottom: 6px;
+  }
+
+  .repo-modal-content p {
+    margin-bottom: 24px;
+    font-size: 0.9rem;
+  }
+
+  .repo-options {
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+
+  .repo-option {
+    padding: 14px 16px;
+    gap: 14px;
+  }
+
+  .repo-icon {
+    font-size: 2rem;
+  }
+
+  .repo-option-text h3 {
+    font-size: 1.05rem;
+  }
+
+  .repo-option-text p {
+    font-size: 0.8rem;
+  }
+
+  .repo-modal-close {
+    padding: 11px 18px;
+    font-size: 0.9rem;
+    margin-top: 10px;
+  }
+}
+
+@media (max-width: 600px) {
+  .repo-modal {
+    width: 88%;
+    max-width: 95vw;
+  }
+
+  .repo-modal-content {
+    padding: 28px 24px;
+    max-height: calc(90vh - 30px);
+  }
+
+  .repo-modal-content h2 {
+    font-size: 1.3rem;
+    margin-bottom: 6px;
+  }
+
+  .repo-modal-content p {
+    margin-bottom: 20px;
+    font-size: 0.88rem;
+  }
+
+  .repo-options {
+    gap: 10px;
+    margin-bottom: 18px;
+  }
+
+  .repo-option {
+    padding: 12px 14px;
+    gap: 12px;
+  }
+
+  .repo-icon {
+    font-size: 1.8rem;
+  }
+
+  .repo-option-text h3 {
+    font-size: 1rem;
+    margin-bottom: 2px;
+  }
+
+  .repo-option-text p {
+    font-size: 0.78rem;
+  }
+
+  .repo-modal-close {
+    padding: 10px 16px;
+    font-size: 0.88rem;
+    margin-top: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .repo-modal {
+    width: 86%;
+  }
+
+  .repo-modal-content {
+    padding: 24px 20px;
+    max-height: calc(90vh - 20px);
+  }
+
+  .repo-modal-content h2 {
+    font-size: 1.2rem;
+    margin-bottom: 4px;
+  }
+
+  .repo-modal-content p {
+    margin-bottom: 18px;
+    font-size: 0.85rem;
+  }
+
+  .repo-options {
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+
+  .repo-option {
+    padding: 10px 12px;
+    gap: 10px;
+  }
+
+  .repo-icon {
+    font-size: 1.6rem;
+  }
+
+  .repo-option-text h3 {
+    font-size: 0.95rem;
+  }
+
+  .repo-option-text p {
+    font-size: 0.75rem;
+  }
+
+  .repo-modal-close {
+    padding: 9px 14px;
+    font-size: 0.85rem;
+    margin-top: 8px;
   }
 }

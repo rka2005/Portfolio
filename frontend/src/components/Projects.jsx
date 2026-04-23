@@ -11,6 +11,8 @@ import project4Image from "../assets/projects/quickshare.jpeg";
 import project6Image from "../assets/projects/ezstudy.jpeg";
 import project7Image from "../assets/projects/heart3.png";
 import project8Image from "../assets/projects/matchmedia.jpeg";
+import project9Image from "../assets/projects/aria.jpeg";
+import project10Image from "../assets/projects/nexus.png";
 
 const projectsData = [
   {
@@ -46,12 +48,12 @@ const projectsData = [
     live: "https://qshareio.vercel.app/",
   },
   {
-    title: "EZ-Study",
-    description: "EZStudy AI is a smart study assistant that helps users quickly grasp their documents. It lets users upload PPTs and Word files to summarizes the content and answers questions based on the document using AI-powered insights.",
-    imageUrl: project6Image, 
-    tech: ["React", "Java Script", "Vercel", "OpenAI"],
-    github: "https://github.com/rka2005/EzStudyAI",
-    live: "https://ezstudyai.vercel.app/",
+      title: "Aria-Studio",
+      description: "Aria Studio is a Cloud Music streaming web application that allows to stream and play audio files directly from Google Drive folders. It features continuous playback, playlist management, and a modern UI for a seamless listening experience without downloading files.",
+      imageUrl: project9Image,
+      tech: ["React", "Node.JS", "Express.JS", "Google Drive API", "OAuth 2.0", "Tailwind CSS"],
+      github: "https://github.com/rka2005/Drive-Music",
+      live: "https://ariastu.vercel.app/",
   },
 ];
 

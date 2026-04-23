@@ -30,7 +30,7 @@ const projectsData = [
     title: "Neura AI",
     description: "NURA is a personalized AI assistant designed to understand voice commands, engage in natural conversations, and perform intelligent tasks in real time. It integrates speech recognition and task execution to provide a smooth, interactive, and intelligent user experience.",
     imageUrl: project2Image,
-    tech: ["Python", "Fast API", "HTML", "CSS", "Java Script"],
+    tech: ["Python", "Streamlit", "Speech Recognition", "OpenAI API"],
     github: "https://github.com/rka2005/Nura-AI",
     live: null,
   },
@@ -38,7 +38,7 @@ const projectsData = [
     title: "AquaWatch",
     description: "AquaWatch is a mobile app that monitors India's groundwater levels in real time and provides a 5-year predictive forecast. It offers actionable insights and sustainable solutions to help communities, farmers, and policymakers manage water resources effectively.",
     imageUrl: project3Image, 
-    tech: ["React", "Type Script", "Python", "Fast API", "Firebase"],
+    tech: ["React", "TypeScript", "Python", "Fast API", "Firebase", "MongoDB"],
     github: "https://github.com/rka2005/AquaWatch_1.0",
     live: "https://aquawatch-v1.vercel.app/",
   },
@@ -46,7 +46,7 @@ const projectsData = [
     title: "Quick Share",
     description: "Quick Share is a fast and secure web application that allows users to upload, preview, and share files or text instantly. It supports multiple file formats, including PDFs with live previews, and provides a seamless, real-time sharing experience across all devices.",
     imageUrl: project4Image, 
-    tech: ["HTML", "Java Script", "MongoDB", "Python", "Fast API", "vercel"],
+    tech: ["HTML", "CSS", "JavaScript", "Python", "Fast API"],
     github: "https://github.com/rka2005/Quick-Share",
     live: "https://qshareio.vercel.app/",
   },
@@ -62,15 +62,16 @@ const projectsData = [
     title: "EZ-Study",
     description: "EZStudy AI is a smart study assistant that helps users quickly grasp their documents. It lets users upload PPTs and Word files to summarizes the content and answers questions based on the document using AI-powered insights.",
     imageUrl: project6Image, 
-    tech: ["React", "Java Script", "Vercel", "OpenAI"],
-    github: "https://github.com/rka2005/EzStudyAI",
+    tech: ["React", "JavaScript", "MongoDB", "OpenAI", "OAuth 2.0", "Tailwind CSS", "Node.JS", "Express.JS"],
+    github: "https://github.com/rka2005/EzStudyFrontend",
+    githubBackend: "https://github.com/rka2005/EzStudyBackend",
     live: "https://ezstudyai.vercel.app/",
   },
   {
     title: "Heart Disease Prediction",
     description: "This project predicts the risk of heart disease using machine learning and deep learning by analyzing key health factors. The model helps identify potential risks early, supporting better medical decisions.",
     imageUrl: project7Image,
-    tech: ["React", "Java Script", "Vercel", "OpenAI"],
+    tech: ["Python", "Scikit-learn", "TensorFlow", "Keras"],
     github: "https://github.com/rka2005/Heart_Disease_Prediction",
     live: null,
   },
@@ -78,7 +79,7 @@ const projectsData = [
     title: "Match Media",
     description: "Match Media enables real-time synchronized media playback across multiple devices with room-based collaboration and instant control sharing.",
     imageUrl: project8Image,
-    tech: ["React", "Java Script", "Python", "Fast API", "Web Sockets"],
+    tech: ["React", "JavaScript", "Python", "Fast API", "Web Sockets"],
     github: "https://github.com/rka2005/Sync-Song",
     live: "https://matchmedia.vercel.app/",
   },
@@ -121,6 +122,7 @@ const cardVariants = {
 
 export default function AllProjects() {
   const [flippedIndex, setFlippedIndex] = useState(null);
+  const [showRepoModal, setShowRepoModal] = useState(null);
 
   return (
     <div className="all-projects-page">
@@ -166,16 +168,27 @@ export default function AllProjects() {
                 onToggle={() =>
                   setFlippedIndex(flippedIndex === index ? null : index)
                 }
+                onGitHubClick={() => setShowRepoModal(index)}
               />
             </motion.div>
           ))}
         </motion.div>
       </div>
+
+      {/* Render modal at top level for proper positioning */}
+      <AnimatePresence>
+        {showRepoModal !== null && projectsData[showRepoModal]?.githubBackend && (
+          <RepositoryModal
+            project={projectsData[showRepoModal]}
+            onClose={() => setShowRepoModal(null)}
+          />
+        )}
+      </AnimatePresence>
     </div>
   );
 }
 
-function ProjectCard({ project, isFlipped, onToggle }) {
+function ProjectCard({ project, isFlipped, onToggle, onGitHubClick }) {
   const flipVariants = {
     initial: { opacity: 0, y: 15 },
     animate: { opacity: 1, y: 0, transition: { duration: 0.4 } },
@@ -202,15 +215,26 @@ function ProjectCard({ project, isFlipped, onToggle }) {
                 <h3>{project.title}</h3>
                 <div className="project-links">
                   {project.github && (
-                    <a
-                      href={project.github}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="project-link"
-                    >
-                      <SiGithub />
-                      <span>Code</span>
-                    </a>
+                    project.githubBackend ? (
+                      <button
+                        onClick={onGitHubClick}
+                        className="project-link"
+                        style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '0' }}
+                      >
+                        <SiGithub />
+                        <span>Code</span>
+                      </button>
+                    ) : (
+                      <a
+                        href={project.github}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="project-link"
+                      >
+                        <SiGithub />
+                        <span>Code</span>
+                      </a>
+                    )
                   )}
                   {project.live && (
                     <a
@@ -259,5 +283,66 @@ function ProjectCard({ project, isFlipped, onToggle }) {
         </AnimatePresence>
       </div>
     </div>
+  );
+}
+
+function RepositoryModal({ project, onClose }) {
+  return (
+    <>
+      {/* Backdrop */}
+      <motion.div
+        className="repo-modal-backdrop"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        onClick={onClose}
+      />
+      
+      {/* Modal */}
+      <motion.div
+        className="repo-modal"
+        initial={{ opacity: 0, scale: 0.9 }}
+        animate={{ opacity: 1, scale: 1 }}
+        exit={{ opacity: 0, scale: 0.9 }}
+        transition={{ type: "spring", stiffness: 300, damping: 30 }}
+      >
+        <div className="repo-modal-content">
+          <h2>Choose Repository</h2>
+          <p>Select which repository you'd like to view:</p>
+          
+          <div className="repo-options">
+            <a
+              href={project.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="repo-option frontend"
+            >
+              <SiGithub className="repo-icon" />
+              <div className="repo-option-text">
+                <h3>Frontend</h3>
+                <p>React & UI Components</p>
+              </div>
+            </a>
+            
+            <a
+              href={project.githubBackend}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="repo-option backend"
+            >
+              <SiGithub className="repo-icon" />
+              <div className="repo-option-text">
+                <h3>Backend</h3>
+                <p>Server & API Logic</p>
+              </div>
+            </a>
+          </div>
+          
+          <button onClick={onClose} className="repo-modal-close">
+            Close
+          </button>
+        </div>
+      </motion.div>
+    </>
   );
 }
