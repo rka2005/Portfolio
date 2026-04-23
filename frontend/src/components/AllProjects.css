@@ -116,17 +116,13 @@
 .project-card-wrapper .card-back {
   border-radius: 12px;
   background-image:
-    linear-gradient(
-      135deg,
+    linear-gradient(135deg,
       rgba(255, 255, 255, 0.08) 0%,
-      rgba(255, 255, 255, 0) 40%
-    ),
-    linear-gradient(
-      135deg,
+      rgba(255, 255, 255, 0) 40%),
+    linear-gradient(135deg,
       rgba(0, 255, 191, 0.18),
       rgba(0, 120, 255, 0.15),
-      rgba(255, 0, 255, 0.12)
-    );
+      rgba(255, 0, 255, 0.12));
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
   border: 1px solid rgba(0, 255, 191, 0.32);
@@ -159,9 +155,9 @@
   flex-direction: column;
   height: 45%;
   background: linear-gradient(135deg,
-    rgba(0, 255, 191, 0.08),
-    rgba(0, 120, 255, 0.10),
-    rgba(0, 0, 0, 0.55));
+      rgba(0, 255, 191, 0.08),
+      rgba(0, 120, 255, 0.10),
+      rgba(0, 0, 0, 0.55));
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
 }
@@ -319,13 +315,6 @@
     gap: 30px;
     max-width: 400px;
   }
-
-  .project-card-wrapper .project-card-inner {
-    width: 100%;
-    height: auto;
-    min-height: 380px;
-    max-height: none;
-  }
 }
 
 @media (max-width: 480px) {
@@ -407,12 +396,10 @@
   position: relative;
   width: 100%;
   max-width: 480px;
-  background: linear-gradient(
-    160deg,
-    rgba(18, 8, 42, 0.96) 0%,
-    rgba(12, 20, 52, 0.97) 45%,
-    rgba(22, 10, 48, 0.96) 100%
-  );
+  background: linear-gradient(160deg,
+      rgba(18, 8, 42, 0.96) 0%,
+      rgba(12, 20, 52, 0.97) 45%,
+      rgba(22, 10, 48, 0.96) 100%);
   backdrop-filter: blur(30px);
   -webkit-backdrop-filter: blur(30px);
   border: 1.5px solid rgba(138, 43, 226, 0.35);
@@ -433,15 +420,13 @@
   inset: -1px;
   border-radius: 25px;
   padding: 1.5px;
-  background: conic-gradient(
-    from 0deg,
-    transparent 0%,
-    rgba(168, 85, 247, 0.5) 20%,
-    transparent 40%,
-    rgba(99, 102, 241, 0.4) 60%,
-    transparent 80%,
-    rgba(168, 85, 247, 0.5) 100%
-  );
+  background: conic-gradient(from 0deg,
+      transparent 0%,
+      rgba(168, 85, 247, 0.5) 20%,
+      transparent 40%,
+      rgba(99, 102, 241, 0.4) 60%,
+      transparent 80%,
+      rgba(168, 85, 247, 0.5) 100%);
   mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   mask-composite: exclude;
@@ -451,7 +436,9 @@
 }
 
 @keyframes modalShimmer {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 /* Decorative glow orbs */
@@ -481,8 +468,13 @@
 }
 
 @keyframes orbFloat {
-  0% { transform: translate(0, 0) scale(1); }
-  100% { transform: translate(12px, -10px) scale(1.12); }
+  0% {
+    transform: translate(0, 0) scale(1);
+  }
+
+  100% {
+    transform: translate(12px, -10px) scale(1.12);
+  }
 }
 
 /* Close X button */
@@ -554,11 +546,9 @@
   align-items: center;
   gap: 16px;
   padding: 18px 20px;
-  background: linear-gradient(
-    135deg,
-    rgba(138, 43, 226, 0.09),
-    rgba(99, 102, 241, 0.06)
-  );
+  background: linear-gradient(135deg,
+      rgba(138, 43, 226, 0.09),
+      rgba(99, 102, 241, 0.06));
   border: 1.2px solid rgba(138, 43, 226, 0.25);
   border-radius: 16px;
   text-decoration: none;
@@ -669,11 +659,9 @@
 .repo-modal-close {
   width: 100%;
   padding: 13px 20px;
-  background: linear-gradient(
-    135deg,
-    rgba(138, 43, 226, 0.1),
-    rgba(99, 102, 241, 0.06)
-  );
+  background: linear-gradient(135deg,
+      rgba(138, 43, 226, 0.1),
+      rgba(99, 102, 241, 0.06));
   border: 1.2px solid rgba(168, 85, 247, 0.25);
   color: #c4b5fd;
   border-radius: 12px;
@@ -688,11 +676,9 @@
 }
 
 .repo-modal-close:hover {
-  background: linear-gradient(
-    135deg,
-    rgba(168, 85, 247, 0.22),
-    rgba(138, 43, 226, 0.15)
-  );
+  background: linear-gradient(135deg,
+      rgba(168, 85, 247, 0.22),
+      rgba(138, 43, 226, 0.15));
   border-color: rgba(168, 85, 247, 0.55);
   color: #f5f3ff;
   box-shadow: 0 6px 22px rgba(168, 85, 247, 0.12);
@@ -736,7 +722,9 @@
     margin-bottom: 24px;
   }
 
-  .repo-options { gap: 12px; }
+  .repo-options {
+    gap: 12px;
+  }
 
   .repo-option {
     padding: 15px 16px;
@@ -748,10 +736,17 @@
     height: 44px;
   }
 
-  .repo-icon { font-size: 1.4rem; }
+  .repo-icon {
+    font-size: 1.4rem;
+  }
 
-  .repo-option-text h3 { font-size: 1.02rem; }
-  .repo-option-text p { font-size: 0.78rem; }
+  .repo-option-text h3 {
+    font-size: 1.02rem;
+  }
+
+  .repo-option-text p {
+    font-size: 0.78rem;
+  }
 
   .repo-modal-close {
     padding: 11px 18px;
@@ -787,7 +782,10 @@
     margin-bottom: 20px;
   }
 
-  .repo-options { gap: 10px; margin-bottom: 20px; }
+  .repo-options {
+    gap: 10px;
+    margin-bottom: 20px;
+  }
 
   .repo-option {
     padding: 12px 14px;
@@ -801,12 +799,21 @@
     border-radius: 11px;
   }
 
-  .repo-icon { font-size: 1.25rem; }
+  .repo-icon {
+    font-size: 1.25rem;
+  }
 
-  .repo-option-text h3 { font-size: 0.95rem; }
-  .repo-option-text p { font-size: 0.74rem; }
+  .repo-option-text h3 {
+    font-size: 0.95rem;
+  }
 
-  .repo-option-arrow { font-size: 1rem; }
+  .repo-option-text p {
+    font-size: 0.74rem;
+  }
+
+  .repo-option-arrow {
+    font-size: 1rem;
+  }
 
   .repo-modal-close {
     padding: 10px 14px;
